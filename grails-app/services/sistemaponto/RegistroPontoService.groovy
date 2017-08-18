@@ -5,15 +5,22 @@ import entity.Dia
 import org.joda.time.DateTimeFieldType
 import org.joda.time.LocalDate
 import org.joda.time.LocalTime
+import util.UtilitarioSpring
 
 class RegistroPontoService {
 
-    boolean bater(Funcionario funcionario) {
-        return bater(funcionario, new LocalDate(), new LocalTime())
+    boolean registrar() {
+        Funcionario funcionario = UtilitarioSpring.getUsuarioLogado()
+        return registrar(funcionario, new LocalDate(), new LocalTime())
     }
 
-    boolean bater(Funcionario funcionario, LocalDate data, LocalTime hora) {
+    boolean registrar(Funcionario funcionario) {
+        return registrar(funcionario, new LocalDate(), new LocalTime())
+    }
+
+    boolean registrar(Funcionario funcionario, LocalDate data, LocalTime hora) {
         String queryFilter = "SELECT MAX(id) FROM RegistroPonto WHERE funcionario.id = ${funcionario.id}"
+        println "FILTRO:::${RegistroPonto.executeQuery(queryFilter)}"
         String hql = "SELECT isEntrada FROM RegistroPonto WHERE id = (${queryFilter})"
         List isEntrada = RegistroPonto.executeQuery(hql)
         RegistroPonto registroPonto = new RegistroPonto()
@@ -21,7 +28,7 @@ class RegistroPontoService {
         registroPonto.dia = data
         registroPonto.hora = hora
         registroPonto.isEntrada = isEntrada.size() > 0 ? !isEntrada.get(0) : true
-        return registroPonto.save() != null
+        return registroPonto.save(flush: true) != null
     }
 
     void removerTodosPontosDoDia(LocalDate dia) {

@@ -7,6 +7,7 @@ import entity.Historico
 import entity.Salario
 import grails.transaction.Transactional
 import org.joda.time.LocalDate
+import util.UtilitarioSpring
 
 @Transactional
 class RelatorioService {
@@ -19,6 +20,12 @@ class RelatorioService {
     Historico criar(long idFuncionario) {
         LocalDate ld = new LocalDate()
         criar(idFuncionario, ld.getMonthOfYear(), ld.getYear())
+    }
+
+    Historico criar() {
+        LocalDate ld = new LocalDate()
+        Funcionario funcionario = UtilitarioSpring.getUsuarioLogado()
+        criar(funcionario.id, ld.getMonthOfYear(), ld.getYear())
     }
 
     Historico criar(long idFuncionario, int mesDoRelatorio, int anoDoRelatorio) {

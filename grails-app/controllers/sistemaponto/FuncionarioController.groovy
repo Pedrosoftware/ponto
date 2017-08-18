@@ -6,6 +6,8 @@ import org.joda.time.LocalDate
 class FuncionarioController {
 
     FuncionarioService funcionarioService
+    RegistroPontoService registroPontoService
+    RelatorioService relatorioService
 
     static defaultAction = "home"
 
@@ -18,13 +20,25 @@ class FuncionarioController {
     }
 
     @Secured(['ROLE_USER', 'ROLE_ADMIN'])
-    def home() {
-        return render (view: 'home')
+    def homepadrao() {
+        Map model = [:]
+        model['relatorio'] = relatorioService.criar()
+        if(params.msg){
+            model['msg'] = params.msg
+        }
+
+        return render(view: '/home/home', model: model)
     }
 
     @Secured(['ROLE_USER', 'ROLE_ADMIN'])
-    def homepadrao() {
-        return render (view: '/home/home')
+    def baterPonto() {
+        Map model = [:]
+        if (registroPontoService.registrar()) {
+            model['msg'] = "Ponto registrado"
+            return redirect(controller: 'funcionario', action: 'homepadrao', params: model)
+        }
+        model['msg'] = "Falha ao registrar o ponto"
+        return redirect(controller: 'funcionario', action: 'homepadrao', params: model)
     }
 
     @Secured(['ROLE_ADMIN'])

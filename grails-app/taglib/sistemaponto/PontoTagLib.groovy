@@ -50,4 +50,14 @@ class PontoTagLib {
             out << render(template: '/home/menuUser')
         }
     }
+
+    def botaoAdmin = {
+        if(UtilitarioSpring.getUsuarioLogado().isAdmin){
+            out << "<a href=\"/SistemaPonto/admin/home\">administrar</a>"
+        }
+    }
+
+    def solicitacaoAjuste = {
+
+    }
 }

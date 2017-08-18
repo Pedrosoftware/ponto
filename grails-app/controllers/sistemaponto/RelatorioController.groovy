@@ -26,7 +26,7 @@ class RelatorioController {
             funcionario = UtilitarioSpring.getUsuarioLogado()
         }
         Historico relatorio = relatorioService.criar(funcionario.id)
-        render(view: 'relatorio', model: ['relatorio': relatorio])
+        render(view: '/home/home', model: ['relatorio': relatorio])
     }
 
     def relatorioPonto() {

@@ -3,7 +3,6 @@ package sistemaponto
 import grails.gorm.DetachedCriteria
 import grails.transaction.Transactional
 import org.joda.time.LocalDate
-import org.joda.time.LocalTime
 
 @Transactional
 class RequisicaoService {
@@ -16,6 +15,15 @@ class RequisicaoService {
         }
         return emAberto.list(sort: 'dataSolicitacao')
     }
+
+    List<Requisicao> buscarRequisicoes(LocalDate dataInicio, LocalDate dataFim){
+        return Requisicao.findAllByDiaRequisitadoBetween(dataInicio,dataFim)
+    }
+    List<Requisicao> buscarRequisicoesMesCorrente(){
+
+    }
+
+
     def get(int codigo) {
         Requisicao requisicao = Requisicao.findById(codigo)
         requisicao.horarios = requisicao.horarios.sort{it.horario}
@@ -28,13 +36,10 @@ class RequisicaoService {
         requisicao.isAprovada = reqAprovada
         requisicao.isFinalizada = true
         if(reqAprovada){
-            //TODO Devo ir no data na tabela de Registro de ponto alterar o ponto como solicitado
             registroPontoService.removerTodosPontosDoDia(requisicao.diaRequisitado)
             for(horario in requisicao.horarios) {
-                registroPontoService.bater(requisicao.funcionario, requisicao.diaRequisitado, horario.horario)
+                registroPontoService.registrar(requisicao.funcionario, requisicao.diaRequisitado, horario.horario)
             }
-        }else{
-            //TODO ação a ser executada quando uma requisição é reprovada
         }
         return requisicao.save() != null
     }

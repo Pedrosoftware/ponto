@@ -15,12 +15,12 @@ class RegistroPontoController {
     def baterPonto() {
         Funcionario funcionario = UtilitarioSpring.getUsuarioLogado()
         Map model = [:]
-        if (registroPontoService.bater(funcionario)) {
-            model['msg'] = "Ponto registrado com sucesso"
-            return forward(controller: 'funcionario', action: 'home', model: model)
+        if (registroPontoService.registrar(funcionario)) {
+            model['msg'] = "Ponto registrado"
+            return redirect(controller: 'funcionario', action: 'homepadrao', model: model)
         }
         model['msg'] = "Falha ao registrar o ponto"
-        return forward(controller: 'funcionario', action: 'home', model: model)
+        return redirect(controller: 'funcionario', action: 'homepadrao', model: model)
     }
 
     @Secured(['permitAll'])
@@ -30,7 +30,7 @@ class RegistroPontoController {
             LocalDate data = new LocalDate()
             LocalTime hora = new LocalTime()
             String mensagem = ""
-            if (registroPontoService.bater(funcionario, data, hora)) {
+            if (registroPontoService.registrar(funcionario, data, hora)) {
                 mensagem = "Ponto registrado para o funcionário ${funcionario.nome}"
             } else {
                 mensagem = "Falha ao registrar ponto para o funcionário ${funcionario.nome}"

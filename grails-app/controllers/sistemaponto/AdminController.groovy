@@ -12,6 +12,6 @@ class AdminController {
 
     def home(){
 
-        return render (view: 'home')
+        return render (view: '/home/homeAdmin')
     }
 }

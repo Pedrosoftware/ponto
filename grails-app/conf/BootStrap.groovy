@@ -5,11 +5,13 @@ import sistemaponto.CargaHoraria
 import entity.ConfiguracaoService
 import sistemaponto.Feriado
 import sistemaponto.Funcionario
+import sistemaponto.RegistroPontoService
 import sistemaponto.Regra
 import sistemaponto.FuncionarioRegra
 
 class BootStrap {
 
+    RegistroPontoService registroPontoService
     def init = { servletContext ->
         int diaFechamento = 25
         ConfiguracaoService.escrever(ConfiguracaoService.DIA_FECHAMENTO, String.valueOf(diaFechamento))
@@ -22,6 +24,7 @@ class BootStrap {
         Funcionario pontual = Funcionario.findOrSaveByUsernameAndPasswordAndIsAdminAndSalarioAndCargaHorariaAndNomeAndDataAdmissao("paulo", "fibo@123", false, 2000, CargaHoraria.findById(2), "Funcionario Pontual", new LocalDate(2017, 1, diaFechamento + 1))
         Funcionario dedicado = Funcionario.findOrSaveByUsernameAndPasswordAndIsAdminAndSalarioAndCargaHorariaAndNomeAndDataAdmissao("pablo", "fibo@123", false, 3000, CargaHoraria.findById(1), "Funcionario Dedicado", new LocalDate(2017, 1, diaFechamento + 1))
 
+
         Regra regraAdmin = new Regra('ROLE_ADMIN')
         Regra regraUser = new Regra('ROLE_USER')
         regraAdmin.save()
@@ -30,9 +33,11 @@ class BootStrap {
         FuncionarioRegra.create(preguicoso, regraAdmin, true)
         FuncionarioRegra.create(pontual, regraUser, true)
 
-        assert(Funcionario.count() == 3)
-        assert(Regra.count() == 2)
+        assert (Funcionario.count() == 3)
+        assert (Regra.count() == 2)
         assert FuncionarioRegra.count() == 2
+
+        List funcionarios = [preguicoso, pontual, dedicado]
 
         LocalTime hora07 = new LocalTime(7, 0, 0)
         LocalTime hora08 = new LocalTime(8, 0, 0)
@@ -42,25 +47,27 @@ class BootStrap {
         LocalTime hora15 = new LocalTime(15, 0, 0)
         LocalTime hora18 = new LocalTime(18, 0, 0)
 
-        Map<String, List<LocalTime>> cargaHoraria = [:]
-        cargaHoraria.preguicoso = [hora08, hora10, hora12, hora15]  //5 horas trabalhadas
-        cargaHoraria.pontual = [hora08, hora12, hora14, hora18]     //8 horas trabalhadas
-        cargaHoraria.dedicado = [hora07, hora12, hora14, hora18]    //9 horas trabalhadas
+        Map<String, List<LocalTime>> pontosBatidos = [:]
+        pontosBatidos.preguicoso = [hora08, hora10, hora12, hora15]  //5 horas trabalhadas
+        pontosBatidos.pontual = [hora08, hora12, hora14, hora18]     //8 horas trabalhadas
+        pontosBatidos.dedicado = [hora07, hora12, hora14, hora18]    //9 horas trabalhadas
 
         Map<Funcionario, List<LocalTime>> mapa =
-                [[preguicoso]: cargaHoraria.preguicoso, [pontual]: cargaHoraria.pontual, [dedicado]: cargaHoraria.dedicado]
+                [[preguicoso]: pontosBatidos.preguicoso, [pontual]: pontosBatidos.pontual, [dedicado]: pontosBatidos.dedicado]
 
         LocalDate dia = new LocalDate(2017, 6, diaFechamento).plusDays(1)
-        LocalDate fechamentoMes = new LocalDate(2017, 7, diaFechamento)
+        LocalDate fechamentoMes = new LocalDate()
         while (dia <= fechamentoMes) {
-            for (item in mapa)
+            for (item in mapa) {
                 for (ponto in item.value) {
-                    sistemaponto.RegistroPonto.findOrSaveByDiaAndHoraAndFuncionarioAndIsEntrada(dia, ponto, item.key, true)
+                    //sistemaponto.RegistroPonto.findOrSaveByDiaAndHoraAndFuncionarioAndIsEntrada(dia, ponto, item.key, true)
+                    registroPontoService.registrar(item.key.get(0), dia, ponto)
                 }
+            }
             dia = dia.plusDays(1)
         }
-        Feriado.findOrSaveByData(new LocalDate(2017,7,10))
-        Feriado.findOrSaveByData(new LocalDate(2017,7,18))
+        Feriado.findOrSaveByData(new LocalDate(2017, 7, 10))
+        Feriado.findOrSaveByData(new LocalDate(2017, 7, 18))
     }
 
     def destroy = {

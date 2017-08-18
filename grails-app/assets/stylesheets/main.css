@@ -1,19 +1,22 @@
 .base{
     text-align: center;
     vertical-align: middle;
-    background-color: #9fcdff;
+    background-color: #aaa;
+    width:100%;
 }
 
 .cabecalho{
     background-color: #eeeeee;
-    height: 50px;
+    padding-right: 0;
+    padding-left: 0;
 }
 
 .corpo{
-    background-color: #aaa;
-    display: flex;
+    width: 90%;
     justify-content: center;
-    height: 200px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    max-width: 1000px;
 }
 
 .rodape{
@@ -26,4 +29,8 @@
 }
 .cabecalho img{
     width: 50px;
+}
+
+.botao-admin{
+    padding-right: 15px;
 }

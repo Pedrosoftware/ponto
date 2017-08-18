@@ -5,6 +5,8 @@
     <asset:stylesheet src="bootstrap-datetimepicker.css"/>
     <asset:stylesheet src="main.css"/>
     <asset:stylesheet src="login.css"/>
+    <asset:stylesheet src="home.css"/>
+
     <asset:javascript src="jquery.js"/>
     <g:layoutHead/>
 </head>
@@ -15,20 +17,20 @@
     <div class="cabecalho container-fluid">
         <nav class="navbar navbar-expand-lg navbar-light  bg-light">
             <asset:image src="logozg.png"/>
-            <a class="navbar-brand" href="#">Sistema de Ponto</a>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="#">Resumo</a>
+                        <g:link controller="relatorio" action="relatorio" class="nav-link">Resumo</g:link>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Registros</a>
+                        <g:link controller="relatorio" action="relatorio" class="nav-link">Registros</g:link>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Pontos</a>
                     </li>
                 </ul>
             </div>
+            <span class="botao-admin"><ponto:botaoAdmin/></span>
             <g:if test="${session.SPRING_SECURITY_CONTEXT}">
                 <a href="/SistemaPonto/logout">sair</a>
             </g:if>
