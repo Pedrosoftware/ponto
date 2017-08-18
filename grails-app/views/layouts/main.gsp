@@ -1,34 +1,48 @@
 <!DOCTYPE html>
-<!--[if lt IE 7 ]> <html lang="en" class="no-js ie6"> <![endif]-->
-<!--[if IE 7 ]>    <html lang="en" class="no-js ie7"> <![endif]-->
-<!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
-<!--[if IE 9 ]>    <html lang="en" class="no-js ie9"> <![endif]-->
-<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"><!--<![endif]-->
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title><g:layoutTitle default="Grails"/></title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="${assetPath(src: 'favicon.ico')}" type="image/x-icon">
-    <link rel="apple-touch-icon" href="${assetPath(src: 'apple-touch-icon.png')}">
-    <link rel="apple-touch-icon" sizes="114x114" href="${assetPath(src: 'apple-touch-icon-retina.png')}">
-    <asset:stylesheet src="application.css"/>
-    <asset:javascript src="application.js"/>
+    <title>Sistema de Ponto</title>
+    <asset:stylesheet src="bootstrap.css"/>
+    <asset:stylesheet src="bootstrap-datetimepicker.css"/>
+    <asset:stylesheet src="main.css"/>
+    <asset:stylesheet src="login.css"/>
+    <asset:javascript src="jquery.js"/>
     <g:layoutHead/>
 </head>
 
 <body>
-<div id="grailsLogo" role="banner"><a href="http://grails.org"><asset:image src="grails_logo.png" alt="Grails"/></a>
-    <g:if test="${session.SPRING_SECURITY_CONTEXT}">
-        <a href="/SistemaPonto/logout">logout</a>
-    </g:if>
+
+<div class="base">
+    <div class="cabecalho container-fluid">
+        <nav class="navbar navbar-expand-lg navbar-light  bg-light">
+            <asset:image src="logozg.png"/>
+            <a class="navbar-brand" href="#">Sistema de Ponto</a>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Resumo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Registros</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Pontos</a>
+                    </li>
+                </ul>
+            </div>
+            <g:if test="${session.SPRING_SECURITY_CONTEXT}">
+                <a href="/SistemaPonto/logout">sair</a>
+            </g:if>
+        </nav>
+    </div>
+
+    <div class="corpo container-fluid">
+        <g:layoutBody/>
+    </div>
+
+    <div class="rodape container-fluid">
+        <asset:image src="logozg.png"/>
+    </div>
 
 </div>
-<ponto:menu/>
-<g:layoutBody/>
-
-<div class="footer" role="contentinfo"></div>
-
-<div id="spinner" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Loading&hellip;"/></div>
 </body>
 </html>

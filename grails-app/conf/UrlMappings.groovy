@@ -8,7 +8,7 @@ class UrlMappings {
         }
 
         "/pontos/$id"(controller: "registroPonto", action: "baterPontoMaquina")
-        "/"(view:"/index")
+        "/"(controller: 'login', action: 'autenticar')
         "500"(view:'/error')
         "404"(view:'/notfound')
 	}

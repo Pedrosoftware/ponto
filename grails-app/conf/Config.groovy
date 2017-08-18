@@ -128,7 +128,7 @@ grails.plugin.springsecurity.apf.usernameParameter = 'username'
 grails.plugin.springsecurity.apf.passwordParameter = 'password'
 grails.plugin.springsecurity.apf.filterProcessesUrl = '/sslogin'
 grails.plugin.springsecurity.adh.errorPage = '/login/negado'
-grails.plugin.springsecurity.successHandler.defaultTargetUrl = '/funcionario/home'
+grails.plugin.springsecurity.successHandler.defaultTargetUrl = '/funcionario/homepadrao'
 grails.plugin.springsecurity.failureHandler.defaultFailureUrl = '/login/autenticar?login_error=1'
 
 
