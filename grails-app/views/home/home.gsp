@@ -51,7 +51,7 @@
                 <td class="dado-tabela"><ponto:conversor localDate="${dia.data}"/></td>
                 <td class="dado-tabela"><ponto:conversor duration="${dia.getHorasExtrasCumpridas()}"/></td>
                 <td class="dado-tabela"><ponto:conversor duration="${dia.getHorasFaltantes()}"/></td>
-                <td class="dado-tabela"><g:link class="ajuste" controller="requisicao" action="index">A</g:link></td>
+                <td class="dado-tabela"><ponto:solicitacaoAjuste dia="${dia}" funcionario="${relatorio.funcionario}"/></td>
                 <td><g:each in="${dia.pontos}" var="ponto">
                     <ponto:conversor localTime="${ponto.hora}"/><g:if test="${ponto.isEntrada}"><span
                             class="ponto-entrada">E&nbsp;</span></g:if><g:else><span

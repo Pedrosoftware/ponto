@@ -8,11 +8,7 @@ import org.joda.time.LocalDate
 class SeletorMes {
 
     static List<Dia> getDiasDoMes(int mes, int ano) {
-        int diaFechamentoMes = ConfiguracaoService.getConfig(ConfiguracaoService.DIA_FECHAMENTO) as int
-        LocalDate dataFimMes = new LocalDate()
-                .withYear(ano)
-                .withMonthOfYear(mes)
-                .withDayOfMonth(diaFechamentoMes)
+        LocalDate dataFimMes = getLastDayOfMonth(mes, ano)
         LocalDate dataInicioMes = dataFimMes.minusMonths(1).plusDays(1)
         List<Dia> lista = []
         Dia dia
@@ -27,5 +23,17 @@ class SeletorMes {
             localDate = dataInicioMes.plusDays(contador)
         }
         return lista
+    }
+
+    static LocalDate getLastDayOfMonth(int mes, ano){
+        int diaFechamentoMes = ConfiguracaoService.getConfig(ConfiguracaoService.DIA_FECHAMENTO) as int
+       return new LocalDate()
+                .withYear(ano)
+                .withMonthOfYear(mes)
+                .withDayOfMonth(diaFechamentoMes)
+    }
+
+    static LocalDate getFirstDayOfMonth(int mes, ano){
+        return getFirstDayOfMonth(mes, ano).minusMonths(1).plusDays(1)
     }
 }

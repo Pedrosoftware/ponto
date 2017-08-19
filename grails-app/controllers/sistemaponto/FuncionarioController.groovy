@@ -23,6 +23,7 @@ class FuncionarioController {
     def homepadrao() {
         Map model = [:]
         model['relatorio'] = relatorioService.criar()
+        //TODO buscar requisições e colocar em uma lista
         if(params.msg){
             model['msg'] = params.msg
         }

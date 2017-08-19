@@ -9,6 +9,7 @@ class RegistroPonto {
     LocalTime hora
     boolean isEntrada
     Funcionario funcionario
+    boolean temRequisicao
 
     static constraints = {
         dia nullable: false

@@ -60,7 +60,6 @@ class BootStrap {
         while (dia <= fechamentoMes) {
             for (item in mapa) {
                 for (ponto in item.value) {
-                    //sistemaponto.RegistroPonto.findOrSaveByDiaAndHoraAndFuncionarioAndIsEntrada(dia, ponto, item.key, true)
                     registroPontoService.registrar(item.key.get(0), dia, ponto)
                 }
             }

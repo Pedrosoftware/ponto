@@ -16,11 +16,21 @@ class RequisicaoService {
         return emAberto.list(sort: 'dataSolicitacao')
     }
 
-    List<Requisicao> buscarRequisicoes(LocalDate dataInicio, LocalDate dataFim){
-        return Requisicao.findAllByDiaRequisitadoBetween(dataInicio,dataFim)
-    }
-    List<Requisicao> buscarRequisicoesMesCorrente(){
 
+    def buscarRequisicao(LocalDate data, Funcionario funcionario){
+        List<Requisicao> lista = Requisicao.findAllByDiaRequisitadoAndFuncionario(data, funcionario)
+        if(lista.isEmpty()){
+            return null
+        }
+        return lista.get(0)
+    }
+
+    def criarRequisicao(Requisicao requisicao){
+        if(requisicao.save()){
+            registroPontoService.marcarRequisicaoNoDia(requisicao.diaRequisitado, requisicao.funcionario)
+            return true
+        }
+        return false
     }
 
 

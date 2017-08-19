@@ -62,18 +62,22 @@ h4{
 .ajuste{
     color: #333;
     text-decoration: none;
+    margin: 0;
 }
 
 .ajuste-aberto{
-    color: #0ff;
+    color: #0099ff;
+    margin: 0;
 }
 
 .ajuste-aceito{
-    color: #0f0;
+    color: #009900;
+    margin: 0;
 }
 
 .ajuste-recusado{
-    color: #f00;
+    color: #bb0000;
+    margin: 0;
 }
 
 .ajuste:hover{
