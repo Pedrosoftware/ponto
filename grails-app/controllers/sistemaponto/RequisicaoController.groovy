@@ -61,7 +61,6 @@ class RequisicaoController {
         for(reqHorario in horarios){
             requisicao.addToHorarios(reqHorario)
         }
-        params.horarios = horarios
 
         if (requisicaoService.criarRequisicao(requisicao)) {
             model['msg'] = "Requisição enviada com sucesso, aguarde a avaliação do administrador"
@@ -69,7 +68,7 @@ class RequisicaoController {
             model['msg'] = "Falha ao requisitar ponto passado. "
             requisicao.errors.allErrors.each { model['msg'] += it }
         }
-        forward(controller: 'funcionario', action: 'homepadrao', model: model)
+        chain(controller: 'funcionario', action: 'homepadrao', model: model)
     }
 
 

@@ -34,6 +34,14 @@ class FormatadorDataHora {
                 .toFormatter().print(ld)
     }
 
+    static String toMonthYear(LocalDate ld){
+        return   new DateTimeFormatterBuilder()
+                .appendMonthOfYearText()
+                .appendLiteral(' de ')
+                .appendYear(4, 4)
+                .toFormatter().print(ld)
+    }
+
     static String toDateTime(LocalDate ld, LocalTime lt){
         String data = toDate(ld)
         String hora = toTime(new Period(lt.getHourOfDay(),

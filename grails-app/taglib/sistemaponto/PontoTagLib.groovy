@@ -23,6 +23,7 @@ class PontoTagLib {
      @attr localDate LocalDate representando uma data a ser apresentada na tela
      @attr localTime LocalTime representando um horario a ser apresentada na tela
      @attr valor double representando o salário do funcionário a ser apresentado na tela
+     @attr date Date representando o mês e ano para ser apresentado na tela com mês em literal
      */
     def conversor = { attrs ->
         if (attrs.duration) {
@@ -36,6 +37,9 @@ class PontoTagLib {
         } else if (attrs.valor) {
             DecimalFormat df = new DecimalFormat("0.##")
             out << df.format(attrs.valor as double)
+        }else if (attrs.date) {
+            LocalDate ld = LocalDate.fromDateFields(attrs.date as Date)
+            out << FormatadorDataHora.toMonthYear(ld)
         } else {
             out << '-'
         }
@@ -55,7 +59,7 @@ class PontoTagLib {
 
     def botaoAdmin = {
         if (UtilitarioSpring.getUsuarioLogado().isAdmin) {
-            out << "<a href=\"/SistemaPonto/admin/home\">administrar</a>"
+            out << '<a id="botao-admin" href="/SistemaPonto/admin/home">administrar</a>'
         }
     }
 

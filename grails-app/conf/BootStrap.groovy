@@ -31,11 +31,12 @@ class BootStrap {
         regraUser.save()
 
         FuncionarioRegra.create(preguicoso, regraAdmin, true)
+        FuncionarioRegra.create(preguicoso, regraUser, true)
         FuncionarioRegra.create(pontual, regraUser, true)
 
         assert (Funcionario.count() == 3)
         assert (Regra.count() == 2)
-        assert FuncionarioRegra.count() == 2
+        assert FuncionarioRegra.count() == 3
 
         List funcionarios = [preguicoso, pontual, dedicado]
 

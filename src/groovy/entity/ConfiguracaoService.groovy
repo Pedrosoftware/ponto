@@ -47,10 +47,14 @@ class ConfiguracaoService {
     }
 
     static LocalDate getDiaFechamento(){
+        LocalDate data = new LocalDate()
+        return getDiaFechamento(data.getMonthOfYear(), data.getYear())
+    }
+    static LocalDate getDiaFechamento(int mes, int ano){
         int dia = getConfig(DIA_FECHAMENTO) as int
-        LocalDate date = new LocalDate()
+        LocalDate date = new LocalDate(ano, mes, 1)
         date = date.withDayOfMonth(dia)
-        if(date.compareTo(new LocalDate()) > 0){
+        if(date > new LocalDate()){
             date = date.minusMonths(1)
         }
         return date

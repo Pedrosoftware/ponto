@@ -1,5 +1,6 @@
 package sistemaponto
 
+import entity.ConfiguracaoService
 import grails.plugin.springsecurity.annotation.Secured
 import org.joda.time.LocalDate
 
@@ -9,7 +10,7 @@ class FuncionarioController {
     RegistroPontoService registroPontoService
     RelatorioService relatorioService
 
-    static defaultAction = "home"
+    static defaultAction = "homepadrao"
 
     @Secured(['ROLE_ADMIN'])
     def formulario() {
@@ -23,12 +24,14 @@ class FuncionarioController {
     def homepadrao() {
         Map model = [:]
         model['relatorio'] = relatorioService.criar()
-        //TODO buscar requisições e colocar em uma lista
-        if(params.msg){
+        if (params.msg) {
             model['msg'] = params.msg
         }
+        if (chainModel) {
+            model += chainModel
+        }
 
-        return render(view: '/home/home', model: model)
+        render(view: '/home/home', model: model)
     }
 
     @Secured(['ROLE_USER', 'ROLE_ADMIN'])
@@ -39,7 +42,7 @@ class FuncionarioController {
             return redirect(controller: 'funcionario', action: 'homepadrao', params: model)
         }
         model['msg'] = "Falha ao registrar o ponto"
-        return redirect(controller: 'funcionario', action: 'homepadrao', params: model)
+        redirect(controller: 'funcionario', action: 'homepadrao', params: model)
     }
 
     @Secured(['ROLE_ADMIN'])
@@ -48,18 +51,46 @@ class FuncionarioController {
         Map model = funcionarioService.salvar(funcionario)
         FuncionarioRegra.create(funcionario, Regra.findByAuthority('ROLE_USER'))
         model['cargaHoraria'] = CargaHoraria.list()
-        return render(view: 'formulario', model: model)
+        render(view: 'formulario', model: model)
+    }
+
+    @Secured(['ROLE_USER', 'ROLE_ADMIN'])
+    def relatorio() {
+        Map model = [:]
+        LocalDate dataInformada
+
+        if (params.mesSelecionado) {
+            LocalDate hoje = new LocalDate()
+            dataInformada = LocalDate.fromDateFields(params.mesSelecionado as Date).withDayOfMonth(hoje.getDayOfMonth())
+
+            if (dataInformada > hoje) {
+                model.mesSelecionado = dataInformada.toDate()
+                model.msg = "O mês informado está no futuro"
+                return render(view: '/home/registros', model: model)
+            }
+
+            model.relatorio = relatorioService.criar(
+                    params.mesSelecionado_month as int, params.mesSelecionado_year as int)
+        } else {
+            model.relatorio = relatorioService.criar()
+            dataInformada = ConfiguracaoService.getDiaFechamento()
+        }
+        if (!model.relatorio) {
+            model.msg = "Não existem registros referêntes a este mês pois o funcionário ainda não tinha entrado na empresa"
+        }
+        model.mesSelecionado = dataInformada.toDate()
+        render(view: '/home/registros', model: model)
     }
 
     @Secured(['ROLE_ADMIN'])
-    def listar(){
-        return render(view: 'listar', model:['funcionarios':funcionarioService.listar()])
+    def listar() {
+        return render(view: 'listar', model: ['funcionarios': funcionarioService.listar()])
     }
 
-    private static Funcionario simulaFuncionario(){
+    private static Funcionario simulaFuncionario() {
         Funcionario f = new Funcionario()
         f.nome = "Fulano"
-        f.username = new Random().nextInt()+""
+        f.username = new Random().nextInt() + ""
         f.password = "fibo@123"
         f.salario = 5000
         f.isAdmin = true

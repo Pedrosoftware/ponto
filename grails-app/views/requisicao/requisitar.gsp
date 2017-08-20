@@ -1,5 +1,6 @@
 <head>
     <meta name="layout" content="main">
+    <asset:stylesheet src="requisitar.css"/>
 </head>
 
 <body>

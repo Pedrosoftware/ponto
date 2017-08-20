@@ -39,6 +39,15 @@ html{
     width: 50px;
 }
 
-.botao-admin{
+#banner-superior{
+    margin-right:30px;
+}
+
+#botao-admin{
     padding-right: 15px;
+    color: #000;
+}
+
+#botao-sair{
+    color: #000;
 }

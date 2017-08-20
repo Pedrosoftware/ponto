@@ -28,8 +28,16 @@ class RelatorioService {
         criar(funcionario.id, ld.getMonthOfYear(), ld.getYear())
     }
 
+    Historico criar(int mesDoRelatorio, int anoDoRelatorio) {
+        Funcionario funcionario = UtilitarioSpring.getUsuarioLogado()
+        criar(funcionario.id, mesDoRelatorio, anoDoRelatorio)
+    }
+
     Historico criar(long idFuncionario, int mesDoRelatorio, int anoDoRelatorio) {
-        return preparadorHistorico.preparar(idFuncionario, mesDoRelatorio, anoDoRelatorio)
+        if (funcJaTrabalhava(Funcionario.findById(idFuncionario).dataAdmissao, mesDoRelatorio, anoDoRelatorio)) {
+            return preparadorHistorico.preparar(idFuncionario, mesDoRelatorio, anoDoRelatorio)
+        }
+        return null
     }
 
     List<Salario> criarRelatorioSalarial(int mesDoRelatorio, int anoDoRelatorio) {
@@ -49,5 +57,11 @@ class RelatorioService {
                     relatorio.horasExtras100)
         }
         return salarios
+    }
+
+    private boolean funcJaTrabalhava(LocalDate dataAdmissaoFuncionario, int mesDoRelatorio, int anoDoRelatorio) {
+        LocalDate mesRelatorio = configuracaoService.getDiaFechamento(mesDoRelatorio, anoDoRelatorio)
+        return dataAdmissaoFuncionario <= mesRelatorio
+
     }
 }
