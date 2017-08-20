@@ -5,7 +5,7 @@
 
 <body>
 <div class="conteudo-superior">
-    <div class="resumo-funcionario">
+    <div class="resumo-funcionario conteiner-base-branco">
         <h4>Informações</h4>
 
         <p><span>Nome:</span> ${relatorio.funcionario.nome}</p>
@@ -20,7 +20,7 @@
         <p><span>Horas faltantes:</span> <ponto:conversor duration="${relatorio.horasFaltantes}"/></p>
     </div>
 
-    <div class="bater-ponto">
+    <div class="bater-ponto conteiner-base-branco">
         <h4>Horário</h4>
 
         <h1 class="relogio">00:00:00</h1>
@@ -33,7 +33,7 @@
     </div>
 </div>
 
-<div class="pontos-batidos">
+<div class="pontos-batidos conteiner-base-branco">
     <h4>Últimos pontos</h4>
     <table class="tabela-ultimos-pontos">
         <thead>

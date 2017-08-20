@@ -1,8 +1,16 @@
+html{
+    background-color: #ccc;
+}
 .base{
     text-align: center;
     vertical-align: middle;
-    background-color: #aaa;
+    background-color: #ccc;
     width:100%;
+}
+
+.conteiner-base-branco{
+    border-radius: 3px;
+    background-color: #fff;
 }
 
 .cabecalho{

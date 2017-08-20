@@ -7,7 +7,7 @@
 </head>
 <body>
 <div class="base-container container-fluid">
-    <div class="formulario-container">
+    <div class="formulario-container conteiner-base-branco">
         <h1>Sistema de Ponto</h1>
         <form action='/SistemaPonto/sslogin' method='POST' id='loginForm' class='cssform' autocomplete='off'>
                 <input class="form-control formulario-item" type="text" id="usuario" name="username" placeholder="USUÁRIO" value="pedro"/>

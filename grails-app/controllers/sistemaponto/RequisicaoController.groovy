@@ -15,7 +15,7 @@ class RequisicaoController {
 
     @Secured(['ROLE_ADMIN', 'ROLE_USER'])
     def index() {
-        render(view: 'index', model: [data: params.data])
+        render(view: 'requisitar', model: [data: params.data])
     }
 
     @Secured(['ROLE_ADMIN', 'ROLE_USER'])

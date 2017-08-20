@@ -1,0 +1,28 @@
+#container-requisicao-form{
+    background-color: #fff;
+    display: flex;
+    width: 60%;
+    margin: 50px auto;
+    box-shadow: 0 0 1em #888888;
+}
+
+#container-requisicao-form > form{
+    margin-right: auto;
+    margin-left: auto;
+    padding: 15px;
+}
+
+.requisicao-td-entradas {
+    padding-right: 15px;
+    padding-top: 5px;
+    padding-bottom:5px;
+}
+.requisicao-td-saidas {
+    padding-left: 15px;
+    padding-top: 5px;
+    padding-bottom:5px;
+}
+
+#requisicao-justificativa {
+    margin-bottom: 15px;
+}

@@ -5,8 +5,6 @@ body{
 .formulario-container{
     padding: 15px 50px 50px 50px;
     box-shadow: 0 0 1em #888888;
-    border-radius: 10px;
-    background: #ffffff;
 }
 .formulario-item{
     margin-top: 25px;

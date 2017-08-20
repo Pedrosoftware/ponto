@@ -6,6 +6,7 @@
     <asset:stylesheet src="main.css"/>
     <asset:stylesheet src="login.css"/>
     <asset:stylesheet src="home.css"/>
+    <asset:stylesheet src="requisitar.css"/>
 
     <asset:javascript src="jquery.js"/>
     <g:layoutHead/>
@@ -24,9 +25,6 @@
                     </li>
                     <li class="nav-item">
                         <g:link controller="relatorio" action="relatorio" class="nav-link">Registros</g:link>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Pontos</a>
                     </li>
                 </ul>
             </div>

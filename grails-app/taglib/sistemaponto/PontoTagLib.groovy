@@ -85,7 +85,7 @@ class PontoTagLib {
                     out << '<p class="'+cssClass+'">A</p>'
                     return
                 }
-                out << '<a class="'+cssClass+'" href="/SistemaPonto/requisicao/index?data='+FormatadorDataHora.toDate(dia.data as LocalDate)+'">A</a>'
+                out << '<a class="'+cssClass+'" href="/SistemaPonto/requisicao?data='+FormatadorDataHora.toDate(dia.data as LocalDate)+'">A</a>'
                 return
             }
             out << '<p class="'+cssClass+'">A</p>'
