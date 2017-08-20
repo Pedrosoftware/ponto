@@ -5,19 +5,16 @@ import grails.transaction.Transactional
 @Transactional
 class FuncionarioService {
 
-    Map salvar(Funcionario funcionario){
+    Funcionario salvar(Funcionario funcionario){
         Map model = [:]
         model['msg'] = ""
-        if (funcionario.save()) {
-            model['msg'] = "funcionário inserido com sucesso"
-        } else {
-            funcionario.errors.allErrors.each { model['msg'] += it }
-        }
-        return model
+        return funcionario.save()
     }
 
     List<Funcionario> listar(){
-        return Funcionario.list()
+        List<Funcionario> lista = Funcionario.findAll()
+        lista.sort{it.nome.toLowerCase()}
+        return lista
     }
 
     Funcionario get(int id){

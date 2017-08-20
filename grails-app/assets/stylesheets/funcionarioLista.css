@@ -1,0 +1,36 @@
+#funcionario-tabela {
+    margin: auto;
+    padding-bottom: 20px;
+}
+
+#conteiner-func-interno {
+    width: 80%;
+    margin: auto;
+}
+
+#conteudo-func-superior{
+    padding: 20px 0;
+    margin: auto;
+}
+
+#conteudo-func-inferior{
+}
+
+#conteudo-func-inferior p{
+    text-align: left;
+    padding: 12px 0;
+    font-size:0.6em;
+    color: #999;
+}
+#conteudo-func-inferior a{
+    float: right;
+}
+
+#funcionario-tabela > table {
+    text-align: left;
+    margin: auto;
+}
+
+.func-tabela-dado {
+    padding: 7px 15px;
+}

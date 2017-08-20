@@ -15,9 +15,11 @@ class FuncionarioController {
     @Secured(['ROLE_ADMIN'])
     def formulario() {
         Map model = [:]
+        if (params.id) {
+            model['funcionario'] = funcionarioService.get(params.id as int)
+        }
         model['cargaHoraria'] = CargaHoraria.list()
-        model['funcionario'] = simulaFuncionario()
-        return model
+        render(view: 'formulario', model: model)
     }
 
     @Secured(['ROLE_USER', 'ROLE_ADMIN'])
@@ -47,11 +49,25 @@ class FuncionarioController {
 
     @Secured(['ROLE_ADMIN'])
     def cadastro(Funcionario funcionario) {
-        funcionario.dataAdmissao = LocalDate.fromDateFields(params.dataAdmissao as Date)
-        Map model = funcionarioService.salvar(funcionario)
-        FuncionarioRegra.create(funcionario, Regra.findByAuthority('ROLE_USER'))
-        model['cargaHoraria'] = CargaHoraria.list()
-        render(view: 'formulario', model: model)
+        try {
+            funcionario.dataAdmissao = LocalDate.fromDateFields(params.dataAdmissao as Date)
+        } catch (Exception ex) {
+            println "não deu certo a data\n${ex}"
+        }
+        funcionario = funcionarioService.salvar(funcionario)
+        if (!funcionario) {
+            Map model = [:]
+            model.msg = 'Falha ao salvar funcionário'
+            model.cargaHoraria = CargaHoraria.list()
+            render(view: 'formulario', model: model)
+            return
+        }
+        if (funcionario.isAdmin) {
+            FuncionarioRegra.create(funcionario, Regra.findByAuthority('ROLE_ADMIN'), true)
+        }
+        FuncionarioRegra.create(funcionario, Regra.findByAuthority('ROLE_USER'), true)
+
+        chain(controller: 'funcionario', action: 'listar', params: ['msg':"Funcionário cadastrado com sucesso"])
     }
 
     @Secured(['ROLE_USER', 'ROLE_ADMIN'])
@@ -84,17 +100,11 @@ class FuncionarioController {
 
     @Secured(['ROLE_ADMIN'])
     def listar() {
-        return render(view: 'listar', model: ['funcionarios': funcionarioService.listar()])
-    }
-
-    private static Funcionario simulaFuncionario() {
-        Funcionario f = new Funcionario()
-        f.nome = "Fulano"
-        f.username = new Random().nextInt() + ""
-        f.password = "fibo@123"
-        f.salario = 5000
-        f.isAdmin = true
-        f.cargaHoraria = CargaHoraria.get(1)
-        return f
+        Map model = [:]
+        if(params.msg){
+            model.msg = params.msg
+        }
+        model.funcionarios = funcionarioService.listar()
+        return render(view: 'listar', model: model)
     }
 }

@@ -1,61 +1,56 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name="layout" content="main">
-    <style type="text/css" media="screen">
-
-    #controller-list ul {
-        list-style-position: inside;
-    }
-
-    #controller-list li {
-        line-height: 1.3;
-        list-style-position: inside;
-        margin: 0.25em 0;
-    }
-
-    #page-body {
-        margin: 2em 1em 1.25em 18em;
-    }
-
-    </style>
+    <meta name="layout" content="admin">
+    <asset:stylesheet src="funcionarioDetalhe.css"/>
 </head>
 
 <body>
-
 <div id="page-body" role="main">
-    <div id="controller-list" role="navigation">
-        <g:if test="${msg}">
-            <h1>${msg}</h1>
-        </g:if>
-        <g:form controller="funcionario" action="cadastro">
-            <label for="nome">Nome:
-                <input id="nome" name="funcionario.nome" type="text" value="${funcionario?.nome}"/>
-            </label></br>
-            <label for="salario">Salário:
-                <input id="salario" name="funcionario.salario" type="text" value="${funcionario?.salario}"/>
-            </label></br>
-            <label>Data de admissão:
-            <g:datePicker id="dataAdmissao" name="dataAdmissao" precision="day" value="${funcionario?.dataAdmissao}"/>
-            </label></br>
-            <label for="usuario">Usuário:
-                <input id="usuario" name="funcionario.username" type="text" value="${funcionario?.username}"/>
-            </label></br>
-            <label for="senha">Senha:
-                <input id="senha" name="funcionario.password" type="password" value="${funcionario?.password}"/>
-            </label></br>
-            <label for="isAdmin">
-                <input id="isAdmin" name="funcionario.isAdmin" type="checkbox"/>Administrador
-            </label></br>
-            <g:select name="funcionario.cargaHoraria"
-                      from="${cargaHoraria}"
-                      optionKey="id"
-                      optionValue="descricao"
-                      value="${funcionario?.cargaHoraria?.id}"/>
-            </br>
-            <input type="submit"></br>
-        </g:form>
+    <div class="conteiner-base-branco">
+        <div id="conteiner-func-detalhe-interno">
+            <g:if test="${msg}">${msg}</g:if>
+            <h4>
+                <g:if test="${funcionario}">Edição</g:if>
+                <g:else>Cadastro</g:else>
+            </h4>
+            <g:form controller="funcionario" action="cadastro">
+                <input type="hidden" name="funcionario.id" value="${funcionario?.id}"/>
+            <table id="tabela-func-detalhe">
+                <tr>
+                    <td class="dado-tab-func-label">Nome</td>
+                    <td class="dado-tab-func-valor"><input class="form-control" name="funcionario.nome" value="${funcionario?.nome}"/></td>
+                </tr>
+                <tr>
+                    <td class="dado-tab-func-label">Salário</td>
+                    <td class="dado-tab-func-valor"><input class="form-control" type="number" name="funcionario.salario" value="${funcionario?.salario}"/></td>
+                </tr>
+                <tr>
+                    <td class="dado-tab-func-label">Data adminissão</td>
+                    <td class="dado-tab-func-valor"><g:datePicker name="funcionario.dataAdmissao" precision="day" value="${funcionario?.dataAdmissao?.toDate()}"/></td>
+                </tr>
+                <tr>
+                    <td class="dado-tab-func-label">Usuário</td>
+                    <td class="dado-tab-func-valor"><input class="form-control" name="funcionario.username" value="${funcionario?.username}"/></td>
+                </tr>
+                <tr>
+                    <td class="dado-tab-func-label">Senha</td>
+                    <td class="dado-tab-func-valor"><input class="form-control" name="funcionario.password" type="password" value="${funcionario?.password}"/></td>
+                </tr>
+                <tr>
+                    <td class="dado-tab-func-label">Carga horária</td>
+                    <td class="dado-tab-func-valor"><g:select name="funcionario.cargaHoraria"
+                                  from="${cargaHoraria}"
+                                  optionKey="id"
+                                  optionValue="descricao"
+                                  value="${funcionario?.cargaHoraria?.id}"/></td>
+                </tr>
+            </table>
+                <input class="btn btn-dark" type="submit" value="Salvar"></br>
+            </g:form>
+        </div>
     </div>
+
 </div>
 </body>
 </html>

@@ -96,4 +96,18 @@ class PontoTagLib {
             return
         }
     }
+
+    /**
+     Tag responsável por somar o valor de um conjunto de itens
+     @attr items Itens a serem somados
+     */
+    def somar = {attrs ->
+        if(attrs.items){
+            def soma = 0
+            for(item in attrs.items){
+                soma += item
+            }
+            out << soma
+        }
+    }
 }

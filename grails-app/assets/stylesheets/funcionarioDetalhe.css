@@ -1,0 +1,18 @@
+#conteiner-func-detalhe-interno{
+    width:50%;
+    margin: auto;
+    padding: 30px 0;
+}
+
+#tabela-func-detalhe{
+    margin: auto;
+}
+.dado-tab-func-label{
+    text-align: right;
+    padding: 10px;
+}
+
+.dado-tab-func-valor{
+    text-align: left;
+    padding: 10px;
+}
