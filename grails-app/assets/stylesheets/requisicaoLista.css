@@ -1,0 +1,22 @@
+.dado-tabela{
+    text-align: left;
+    padding: 10px;
+}
+
+.tabela-requisicoes{
+    margin: auto;
+}
+
+.tabela-td-link{
+    text-decoration: none;
+    color: #000;
+}
+
+.tabela-td-link:hover{
+    text-decoration: none;
+    color: #000;
+}
+
+#requisicao-lista-titulo{
+    padding: 15px;
+}

@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Administração</title>
-    <meta name="layout" content="main">
+    <meta name="layout" content="admin">
 </head>
 <body>
 

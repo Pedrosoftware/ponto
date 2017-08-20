@@ -1,27 +1,39 @@
 <html>
 <head>
-    <meta name="layout" content="main">
+    <meta name="layout" content="admin">
+    <asset:stylesheet src="requisicaoLista.css"/>
 </head>
 
 <body>
-<table>
-
-    <g:if test="msg">
-        <h1>${msg}</h1>
+<div class="conteiner-base-branco">
+    <g:if test="${msg}">
+        <h4>${msg}</h4>
     </g:if>
-    <tr>
-        <td>data Solicitação</td>
-        <td>Dia Requisitado</td>
-        <td>Funcionario</td>
-    </tr>
-    <g:each var="requisicao" in="${requisicoes}">
+    <h4 id="requisicao-lista-titulo">Lista de requisições em aberto</h4>
+    <table class="tabela-requisicoes">
         <tr>
-            <td>${requisicao.dataSolicitacao}</td>
-            <td>${requisicao.diaRequisitado}</td>
-            <td>${requisicao.funcionario.nome}</td>
-            <td><g:link controller="requisicao" action="detalhe" id="${requisicao.id}">ver</g:link></td>
+            <td class="dado-tabela">data Solicitação</td>
+            <td class="dado-tabela">Dia Requisitado</td>
+            <td class="dado-tabela">Requisitante</td>
         </tr>
-    </g:each>
-</table>
+        <g:each var="requisicao" in="${requisicoes}">
+
+            <tr class='tabela-linha'>
+                <td class="dado-tabela">
+                    <g:link class="tabela-td-link" controller="requisicao" action="detalhe" id="${requisicao.id}">
+                        <ponto:conversor localDate="${requisicao.dataSolicitacao}"/>
+                    </g:link></td>
+                <td class="dado-tabela">
+                    <g:link class="tabela-td-link" controller="requisicao" action="detalhe" id="${requisicao.id}">
+                        <ponto:conversor localDate="${requisicao.diaRequisitado}"/>
+                    </g:link></td>
+                <td class="dado-tabela">
+                    <g:link class="tabela-td-link" controller="requisicao" action="detalhe" id="${requisicao.id}">
+                        ${requisicao.funcionario.nome}
+                    </g:link></td>
+            </tr>
+        </g:each>
+    </table>
+</div>
 </body>
 </html>

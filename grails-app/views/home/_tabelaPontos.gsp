@@ -5,7 +5,7 @@
         <td class="dado-tabela">Trabalhadas</td>
         <td class="dado-tabela">Extras</td>
         <td class="dado-tabela">Faltantes</td>
-        <g:if test="${ajuste == true}"><td class="dado-tabela">Ajuste</td></g:if>
+        <g:if test="${ajuste}"><td class="dado-tabela">Ajuste</td></g:if>
 
         <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pontos</td>
     </tr>
@@ -17,7 +17,7 @@
             <td class="dado-tabela"><ponto:conversor duration="${dia.cargaCumprida}"/></td>
             <td class="dado-tabela"><ponto:conversor duration="${dia.getHorasExtrasCumpridas()}"/></td>
             <td class="dado-tabela"><ponto:conversor duration="${dia.getHorasFaltantes()}"/></td>
-            <g:if test="${ajuste == true}">
+            <g:if test="${ajuste}">
                 <td class="dado-tabela"><ponto:solicitacaoAjuste dia="${dia}" funcionario="${relatorio.funcionario}"/></td>
             </g:if>
             <td><g:each in="${dia.pontos}" var="ponto">

@@ -79,9 +79,13 @@ class RequisicaoController {
 
     @Secured(['ROLE_ADMIN'])
     def detalhe() {
-        Map model = ['requisicao': requisicaoService.get(Integer.parseInt(params.id))]
+        Map model = [:]
+        Requisicao requisicao = requisicaoService.get(Integer.parseInt(params.id as String))
+        model.requisicao = requisicao
+        model.horarios = convertSetToList(requisicao.horarios)
         render(view: 'detalhe', model: model)
     }
+
 
     @Secured(['ROLE_ADMIN'])
     def aprovar() {
@@ -111,6 +115,15 @@ class RequisicaoController {
         RequisicaoHorario rh = new RequisicaoHorario()
         rh.horario = new LocalTime(strNumeros[0] as int, strNumeros[1] as int, strNumeros[2] as int)
         return rh
+    }
+
+
+    private static List<LocalTime> convertSetToList(Set<RequisicaoHorario> horariosSet) {
+        List<LocalTime> horariosList = []
+        for(set in horariosSet){
+            horariosList.add(set.horario)
+        }
+        return horariosList
     }
 
 }

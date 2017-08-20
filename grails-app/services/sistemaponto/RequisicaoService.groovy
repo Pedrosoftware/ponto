@@ -9,7 +9,7 @@ class RequisicaoService {
 
     RegistroPontoService registroPontoService
 
-    def listarEmAberto() {
+    List<Requisicao> listarEmAberto() {
         DetachedCriteria emAberto = Requisicao.where {
             isFinalizada == false
         }
@@ -34,12 +34,11 @@ class RequisicaoService {
     }
 
 
-    def get(int codigo) {
+    Requisicao get(int codigo) {
         Requisicao requisicao = Requisicao.findById(codigo)
         requisicao.horarios = requisicao.horarios.sort{it.horario}
         return requisicao
     }
-
 
     boolean finalizar(boolean reqAprovada, int id){
         Requisicao requisicao = get(id)

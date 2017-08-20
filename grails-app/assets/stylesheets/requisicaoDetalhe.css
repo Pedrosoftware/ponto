@@ -1,0 +1,47 @@
+#requisicao-descricacao{
+    width: 50%;
+    text-align: left;
+}
+
+#requisicao-pontos{
+    width:50%;
+    margin-right:0;
+}
+
+#requisicao-justificativa{
+    padding-top: 20px;
+}
+
+#requisicao-botoes{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+#conteudo-superior{
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+}
+
+#tabela-pontos{
+    margin-left: auto;
+    margin-right:auto;
+    width: 100%;
+}
+
+.requisicao-td{
+    margin-left: auto;
+    margin-right:auto;
+
+}
+
+#conteiner-interno{
+    width: 80%;
+    margin-left: auto;
+    margin-right:auto;
+}
+
+.requisicao-botao{
+    padding: 20px;
+}
