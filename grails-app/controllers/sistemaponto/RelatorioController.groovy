@@ -34,9 +34,9 @@ class RelatorioController {
         LocalDate mesSelecionado = new LocalDate()
         if (params.idFuncionario) {
             model.funcionario = funcionarioService.get(params.idFuncionario as int)
-            if (params.data_year && params.data_month) {
-                mesSelecionado = new LocalDate(params.data_year as int, params.data_month as int, 1)
-                model.relatorio = relatorioService.criar(params.idFuncionario as int, params.data_month as int, params.data_year as int)
+            if (params.mesSelecionado) {
+                mesSelecionado = LocalDate.fromDateFields(params.mesSelecionado as Date)
+                model.relatorio = relatorioService.criar(model.funcionario.id as int, mesSelecionado.getMonthOfYear(), mesSelecionado.getYear())
             }
         }
         model.mesSelecionado = mesSelecionado.toDate()
