@@ -24,7 +24,7 @@ class FeriadoController {
             return forward (controller: 'feriado', action: 'home', model: model)
         }
 
-        if(dataRecebida <= ConfiguracaoService.getDiaFechamento()){
+        if(dataRecebida <= ConfiguracaoService.getUltimoDiaFechamento()){
             model.msg = "Falha ao cadastrar feriado. Data anterior ao data de fechamento"
             return forward (controller: 'feriado', action: 'home', model: model)
         }

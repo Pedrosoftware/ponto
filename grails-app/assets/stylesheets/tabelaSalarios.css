@@ -1,0 +1,28 @@
+#conteiner-tabela-salarios{
+    width: 80%;
+    margin: auto;
+}
+
+#tabela-salarios{
+    margin: auto;
+}
+
+.dado-tab-salario{
+    padding: 7px 10px;
+    text-align: right;
+}
+
+.head-tab-salario{
+    padding: 7px 10px;
+    text-align: center;
+}
+
+.dado-tab-salario-col1{
+    text-align: left;
+}
+
+.foot-tab-salario{
+    text-align: right;
+    font-weight: bold;
+}
+

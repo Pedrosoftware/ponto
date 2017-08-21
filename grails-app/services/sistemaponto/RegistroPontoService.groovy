@@ -49,7 +49,7 @@ class RegistroPontoService {
 
         List<RegistroPonto> pontos = (List<RegistroPonto>) RegistroPonto.withCriteria {
             eq('funcionario.id', idFuncionario)
-            gt('dia', ConfiguracaoService.getDiaFechamento())
+            gt('dia', ConfiguracaoService.getUltimoDiaFechamento())
             order('dia', 'desc')
         }
         List<Dia> dias = []

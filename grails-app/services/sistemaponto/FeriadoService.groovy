@@ -8,7 +8,7 @@ import org.joda.time.LocalDate
 class FeriadoService {
 
     List<Feriado> listarDoMes() {
-        return Feriado.findAllByDataGreaterThan(ConfiguracaoService.getDiaFechamento()).sort({it.data})
+        return Feriado.findAllByDataGreaterThan(ConfiguracaoService.getUltimoDiaFechamento()).sort({it.data})
     }
 
     boolean inserir(Feriado feriado){

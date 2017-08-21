@@ -89,7 +89,7 @@ class FuncionarioController {
                     params.mesSelecionado_month as int, params.mesSelecionado_year as int)
         } else {
             model.relatorio = relatorioService.criar()
-            dataInformada = ConfiguracaoService.getDiaFechamento()
+            dataInformada = ConfiguracaoService.getUltimoDiaFechamento()
         }
         if (!model.relatorio) {
             model.msg = "Não existem registros referêntes a este mês pois o funcionário ainda não tinha entrado na empresa"

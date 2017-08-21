@@ -1,6 +1,8 @@
 package sistemaponto
 
+import entity.ConfiguracaoService
 import entity.Historico
+import entity.Salario
 import grails.plugin.springsecurity.annotation.Secured
 import org.joda.time.LocalDate
 import util.UtilitarioSpring
@@ -36,7 +38,17 @@ class RelatorioController {
             model.funcionario = funcionarioService.get(params.idFuncionario as int)
             if (params.mesSelecionado) {
                 mesSelecionado = LocalDate.fromDateFields(params.mesSelecionado as Date)
-                model.relatorio = relatorioService.criar(model.funcionario.id as int, mesSelecionado.getMonthOfYear(), mesSelecionado.getYear())
+                Historico historico = relatorioService.criar(model.funcionario.id as int, mesSelecionado.getMonthOfYear(), mesSelecionado.getYear())
+                if (historico) {
+                    if (historico.dias.size()) {
+                        model.relatorio = historico
+                    } else {
+                        model.msg = "Não existem pontos registrados para o mês informado"
+                    }
+                } else {
+                    model.msg = "Mês anterior a data de contratação do funcionário"
+                }
+
             }
         }
         model.mesSelecionado = mesSelecionado.toDate()
@@ -45,14 +57,32 @@ class RelatorioController {
     }
 
     def relatorioSalario() {
-        //TODO validar parametros do mês e ano
         Map model = [:]
-        LocalDate mesSelecionado = new LocalDate()
-        if (params.data) {
-            model.salarios = relatorioService.criarRelatorioSalarial(params.data_month as int, params.data_year as int)
-            mesSelecionado = new LocalDate(params.data_year as int, params.data_month as int, 1)
+        if (!params.mesSelecionado) {
+            return retornarMensagemAviso("Selecione um mês para consulta", model)
+        }
+
+        LocalDate mesAtual = ConfiguracaoService.getDiaFechamento()
+        LocalDate mesSelecionado = new LocalDate(params.mesSelecionado_year as int, params.mesSelecionado_month as int, mesAtual.getDayOfMonth())
+
+        if(mesSelecionado > mesAtual){
+            return retornarMensagemAviso("O mês informado ainda não aconteceu", model)
+        }else if(mesSelecionado == mesAtual){
+            return retornarMensagemAviso("O mês informado ainda não está fechado", model)
+        }
+
+        List<Salario> salarios = relatorioService.criarRelatorioSalarial(mesSelecionado.getMonthOfYear(), mesSelecionado.getYear())
+        if (salarios.size()) {
+            model.salarios = salarios
+        } else {
+            model.msg = "Não existem funcionários cadastrados no período informado"
         }
         model.mesSelecionado = mesSelecionado.toDate()
         render(view: 'relatorioSalario', model: model)
+    }
+
+    def retornarMensagemAviso(String msg, Map model){
+        model.msg = msg
+        return render(view: 'relatorioSalario', model: model)
     }
 }

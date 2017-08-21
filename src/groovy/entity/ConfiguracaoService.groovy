@@ -1,5 +1,6 @@
 package entity
 
+import net.sf.cglib.core.Local
 import org.joda.time.LocalDate
 
 class ConfiguracaoService {
@@ -46,17 +47,24 @@ class ConfiguracaoService {
         return mapa
     }
 
-    static LocalDate getDiaFechamento(){
-        LocalDate data = new LocalDate()
-        return getDiaFechamento(data.getMonthOfYear(), data.getYear())
+    static LocalDate getUltimoDiaFechamento(){
+        LocalDate date = new LocalDate()
+        date = getDiaFechamento(date.getMonthOfYear(), date.getYear())
+        if(date > new LocalDate()){
+            date = date.minusMonths(1)
+        }
+        return date
     }
+
+    static LocalDate getDiaFechamento(){
+        LocalDate date = new LocalDate()
+        return getDiaFechamento(date.getMonthOfYear(), date.getYear())
+    }
+
     static LocalDate getDiaFechamento(int mes, int ano){
         int dia = getConfig(DIA_FECHAMENTO) as int
         LocalDate date = new LocalDate(ano, mes, 1)
         date = date.withDayOfMonth(dia)
-        if(date > new LocalDate()){
-            date = date.minusMonths(1)
-        }
         return date
     }
 

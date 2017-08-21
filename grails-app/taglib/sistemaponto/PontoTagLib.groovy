@@ -35,8 +35,16 @@ class PontoTagLib {
             Period p = new Period(lt.getHourOfDay(), lt.getMinuteOfHour(), lt.getSecondOfMinute(), lt.getMillisOfSecond())
             out << FormatadorDataHora.toTime(p.toStandardDuration())
         } else if (attrs.valor) {
-            DecimalFormat df = new DecimalFormat("0.##")
-            out << df.format(attrs.valor as double)
+            DecimalFormat formatador = new DecimalFormat("0.##")
+            String result = formatador.format(attrs.valor as double)
+            if(!result.contains(',')){
+                result += ",00"
+            }else{
+                if(result.split(",")[1].size()==1){
+                    result += '0'
+                }
+            }
+            out << result
         }else if (attrs.date) {
             LocalDate ld = LocalDate.fromDateFields(attrs.date as Date)
             out << FormatadorDataHora.toMonthYear(ld)
@@ -108,6 +116,18 @@ class PontoTagLib {
                 soma += item
             }
             out << soma
+        }
+    }
+
+    /**
+     Tag responsável por somar o valor de um conjunto de itens do tipo Duration e converter o resultado para tempo no
+     formato 00:00
+     @attr lista Lista de Duration a ser somada
+     */
+    def somaListaValores = { attrs ->
+        if(attrs.lista){
+            def valorSomado = somar([items: attrs.lista])
+            out << conversor([valor: valorSomado])
         }
     }
 }
