@@ -1,0 +1,19 @@
+#conteiner-carga-interno{
+    width: 80%;
+    margin: auto;
+    padding: 20px 0;
+}
+
+#conteiner-carga-interno > table{
+    margin: auto;
+}
+
+.dado-tab-carga{
+    color: #000;
+    padding: 10px 20px;
+}
+
+.dado-tab-carga:hover{
+    color:#000;
+    text-decoration: none;
+}

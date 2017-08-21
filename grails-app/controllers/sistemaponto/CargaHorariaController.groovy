@@ -11,10 +11,15 @@ class CargaHorariaController {
     static defaultAction = "home"
 
     def home() {
-        render(view: 'home', model: ['cargas': cargaHorariaService.getAll()])
+        Map model = [:]
+        if(chainModel){
+           model.msg = chainModel.msg
+        }
+        model.cargas = cargaHorariaService.getAll()
+        render(view: 'home', model: model)
     }
 
-    def novo(){
+    def nova(){
         render(view: 'salvar')
     }
 
@@ -42,7 +47,6 @@ class CargaHorariaController {
         } else {
             model['msg'] = "Falha ao salvar Carga horária"
         }
-        model['cargas'] = cargaHorariaService.getAll()
-        forward(controller: 'cargaHoraria', action: 'home', model: model)
+        chain(controller: 'cargaHoraria', action: 'home', params: model)
     }
 }

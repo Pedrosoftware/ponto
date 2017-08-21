@@ -24,7 +24,7 @@
                         <g:link controller="funcionario" action="listar" class="nav-link">Funcionários</g:link>
                     </li>
                     <li class="nav-item active">
-                        <g:link controller="funcionario" class="nav-link">Cargas</g:link>
+                        <g:link controller="cargaHoraria" class="nav-link">Cargas</g:link>
                     </li>
                     <li class="nav-item active">
                         <g:link controller="funcionario" class="nav-link">Rel pontos</g:link>

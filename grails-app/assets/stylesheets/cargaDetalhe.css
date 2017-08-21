@@ -1,0 +1,21 @@
+#conteiner-carga-det-interno{
+    width: 80%;
+    margin: auto;
+    padding: 15px 0;
+}
+
+.tab-carga-det-td{
+    padding: 5px 10px;
+}
+.tab-carga-det-td > label{
+    text-align: left;
+    width:100%;
+}
+
+.tab-carga-det-td input{
+    text-align: center;
+}
+
+#conteiner-carga-det-interno > form > table{
+    margin: auto;
+}
