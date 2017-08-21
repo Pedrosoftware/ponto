@@ -1,5 +1,6 @@
 package sistemaponto
 
+import entity.ConfiguracaoService
 import grails.gorm.DetachedCriteria
 import grails.transaction.Transactional
 import org.joda.time.LocalDate
@@ -16,8 +17,24 @@ class RequisicaoService {
         return emAberto.list(sort: 'dataSolicitacao')
     }
 
+    List<Requisicao> buscarNoPeriodoAtual(boolean isFinalizada, boolean isAprovada){
+        LocalDate data = new LocalDate()
+        return buscarPorMes(data.getMonthOfYear(), data.getYear(), isFinalizada, isAprovada)
+    }
 
-    def buscarRequisicao(LocalDate data, Funcionario funcionario){
+    List<Requisicao> buscarPorMes(int mes, int ano, boolean isFinalizada, boolean isAprovada){
+        LocalDate abertura = ConfiguracaoService.getDiaAbertura(mes,ano)
+        LocalDate fechamento = ConfiguracaoService.getDiaFechamento(mes,ano)
+        return Requisicao.findAllByIsFinalizadaAndIsAprovadaAndDiaRequisitadoBetween(isFinalizada,isAprovada, abertura, fechamento)
+    }
+    List<Requisicao> buscarAprovadasPorMes(int mes, int ano){
+
+    }
+    List<Requisicao> buscarReprovadasPorMes(int mes, int ano){
+
+    }
+
+    Requisicao buscarRequisicao(LocalDate data, Funcionario funcionario){
         List<Requisicao> lista = Requisicao.findAllByDiaRequisitadoAndFuncionario(data, funcionario)
         if(lista.isEmpty()){
             return null
@@ -25,7 +42,7 @@ class RequisicaoService {
         return lista.get(0)
     }
 
-    def criarRequisicao(Requisicao requisicao){
+    boolean criarRequisicao(Requisicao requisicao){
         if(requisicao.save()){
             registroPontoService.marcarRequisicaoNoDia(requisicao.diaRequisitado, requisicao.funcionario)
             return true

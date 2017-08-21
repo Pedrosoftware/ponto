@@ -68,6 +68,11 @@ class ConfiguracaoService {
         return date
     }
 
+    static LocalDate getDiaAbertura(int mes, int ano){
+        LocalDate fechamento = getDiaFechamento(mes, ano)
+        return fechamento.minusMonths(1).plusDays(1)
+    }
+
     private static File getFile(){
         File file = new File("configuracao.conf")
         file.createNewFile()

@@ -28,9 +28,7 @@ class FeriadoController {
             return encaminhar("Falha, data anterior ao data de início do período atual", model)
         }
 
-        int mes = (dataFechamento.getMonthOfYear()+1)
-        int dia = dataFechamento.getDayOfMonth()-1
-        dataFechamento  = new LocalDate(dataFechamento.getYear(),mes,dia)
+        dataFechamento = dataFechamento.plusMonths(1).minusDays(1)
         if(dataRecebida > dataFechamento){
             return encaminhar("Falha, data posterior ao fim do período atual", model)
         }

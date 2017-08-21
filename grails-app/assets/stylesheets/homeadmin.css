@@ -1,0 +1,30 @@
+.homeadmin-bloco{
+    background-color: #fff;
+    width: 48%;
+    margin: 1%;
+    box-shadow: 0 0 1em #888888;
+    border-radius: 3px;
+}
+
+.conteiner-homeadmin{
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+#homeadmin-funcionarios{
+    
+}
+
+#homeadmin-horas{
+    
+}
+
+#homeadmin-feriados{
+    
+}
+
+#homeadmin-requisicoes{
+    
+}

@@ -18,6 +18,9 @@
             <div class="navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
+                        <g:link controller="admin" class="nav-link">Resumo</g:link>
+                    </li>
+                    <li class="nav-item active">
                         <g:link controller="requisicao" action="listar" class="nav-link">Requisições</g:link>
                     </li>
                     <li class="nav-item active">
