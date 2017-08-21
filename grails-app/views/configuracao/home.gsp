@@ -1,5 +1,5 @@
 <head>
-    <meta name="layout" content="main">
+    <meta name="layout" content="admin">
 </head>
 
 <body>
@@ -11,6 +11,7 @@
         <label for="dia">Informe o dia do fechamento do mês</br>
             <input type="text" name="diaFechamento" id="dia" value="${diaFechamento}"/>
         </label></br>
+        <h1> cadastrar feriados aqui tbm</h1>
         <input type="submit" value="enviar"/>
     </g:form>
 </div>

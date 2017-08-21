@@ -27,13 +27,13 @@
                         <g:link controller="cargaHoraria" class="nav-link">Cargas</g:link>
                     </li>
                     <li class="nav-item active">
-                        <g:link controller="funcionario" class="nav-link">Rel pontos</g:link>
+                        <g:link controller="relatorio" action="relatorioPonto" class="nav-link">Rel pontos</g:link>
                     </li>
                     <li class="nav-item active">
-                        <g:link controller="funcionario" class="nav-link">Rel salários</g:link>
+                        <g:link controller="relatorio" action="relatorioSalario" class="nav-link">Rel salários</g:link>
                     </li>
                     <li class="nav-item">
-                        <g:link controller="funcionario" class="nav-link">Configurações</g:link>
+                        <g:link controller="configuracao" class="nav-link">Configurações</g:link>
                     </li>
                 </ul>
             </div>
