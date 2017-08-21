@@ -81,7 +81,7 @@ class RelatorioController {
         render(view: 'relatorioSalario', model: model)
     }
 
-    def retornarMensagemAviso(String msg, Map model){
+    private def retornarMensagemAviso(String msg, Map model){
         model.msg = msg
         return render(view: 'relatorioSalario', model: model)
     }

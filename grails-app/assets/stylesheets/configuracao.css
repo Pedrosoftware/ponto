@@ -1,0 +1,18 @@
+#config-config{
+    margin: 15px 30px;
+}
+
+#config-feriados{
+    margin: 15px 30px;
+}
+
+#configuracao{
+    margin: auto;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: flex-end;
+}
+
+#conteudo-config-interior{
+    padding: 20px;
+}
