@@ -1,8 +1,5 @@
 package sistemaponto
 
-import entity.ConfiguracaoService
-import entity.Dia
-import org.joda.time.DateTimeFieldType
 import org.joda.time.LocalDate
 import org.joda.time.LocalTime
 import util.UtilitarioSpring
@@ -45,31 +42,30 @@ class RegistroPontoService {
         }
     }
 
-    int totalFuncionariosTrabalhando(){
-        LocalDate hoje = new LocalDate()
-
+    List<RegistroPonto> buscarPontosDoDia(LocalDate dia){
+        return RegistroPonto.findAllByDia(dia)
     }
 
-    List<Dia> listaPontosMesCorrente(long idFuncionario) {
-
-        List<RegistroPonto> pontos = (List<RegistroPonto>) RegistroPonto.withCriteria {
-            eq('funcionario.id', idFuncionario)
-            gt('dia', ConfiguracaoService.getUltimoDiaFechamento())
-            order('dia', 'desc')
-        }
-        List<Dia> dias = []
-        pontos.groupBy { it.dia.get(DateTimeFieldType.dayOfMonth()) }
-                .each { pontosDoDia ->
-
-            Dia objetoDia = new Dia()
-            objetoDia.data = pontosDoDia.value.get(0).dia
-            pontosDoDia.value.each { ponto ->
-                objetoDia.pontos.add(ponto)
-            }
-            objetoDia.pontos.sort{it.hora}
-            dias.add(objetoDia)
-            dias = dias.sort { it.data }
-        }
-        return dias
-    }
+//    List<Dia> listaPontosMesCorrente(long idFuncionario) {
+//
+//        List<RegistroPonto> pontos = (List<RegistroPonto>) RegistroPonto.withCriteria {
+//            eq('funcionario.id', idFuncionario)
+//            gt('dia', ConfiguracaoService.getUltimoDiaFechamento())
+//            order('dia', 'desc')
+//        }
+//        List<Dia> dias = []
+//        pontos.groupBy { it.dia.get(DateTimeFieldType.dayOfMonth()) }
+//                .each { pontosDoDia ->
+//
+//            Dia objetoDia = new Dia()
+//            objetoDia.data = pontosDoDia.value.get(0).dia
+//            pontosDoDia.value.each { ponto ->
+//                objetoDia.pontos.add(ponto)
+//            }
+//            objetoDia.pontos.sort{it.hora}
+//            dias.add(objetoDia)
+//            dias = dias.sort { it.data }
+//        }
+//        return dias
+//    }
 }

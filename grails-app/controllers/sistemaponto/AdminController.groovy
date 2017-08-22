@@ -1,9 +1,8 @@
 package sistemaponto
 
-import entity.ConfiguracaoService
 import entity.FormatadorDataHora
+import entity.Historico
 import grails.plugin.springsecurity.annotation.Secured
-import org.joda.time.Duration
 
 /**
  * Created by pedro on 01/08/17.
@@ -13,7 +12,9 @@ class AdminController {
 
     FeriadoService feriadoService
     RequisicaoService requisicaoService
+    RelatorioService relatorioService
     FuncionarioService funcionarioService
+    RegistroPontoService registroPontoService
     static defaultAction = "home"
 
     def home() {
@@ -36,15 +37,16 @@ class AdminController {
         model['Total funcionários'] = funcionarioService.listar().size()
         model['Soma dos salários'] = funcionarioService.salarioTotal()
         model['Entraram este mês'] = funcionarioService.entraramNoMes().size()
-        model['Trabalhando agora'] = 23
+        model['Trabalhando agora'] = funcionarioService.trabalhandoNoMomento().size()
         return model
     }
 
     Map preencherBlocoHoras() {
         Map model = [:]
-        model['total'] = FormatadorDataHora.toTime(new Duration(32302323))
-        model['horas 50%'] = FormatadorDataHora.toTime(new Duration(1230919))
-        model['horas 100%'] = FormatadorDataHora.toTime(new Duration(12302323))
+        List<Historico> historicos = relatorioService.criarParaTodosOsFuncionarios()
+        model['total'] = FormatadorDataHora.toTime(relatorioService.totalHorasExtras(historicos))
+        model['horas 50%'] = FormatadorDataHora.toTime(relatorioService.totalHorasExtras50(historicos))
+        model['horas 100%'] = FormatadorDataHora.toTime(relatorioService.totalHorasExtras100(historicos))
         return model
     }
 

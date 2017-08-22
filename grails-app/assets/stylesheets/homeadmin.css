@@ -1,9 +1,7 @@
 .homeadmin-bloco{
-    background-color: #fff;
     width: 48%;
     margin: 1%;
-    box-shadow: 0 0 1em #888888;
-    border-radius: 3px;
+    padding: 10px;
 }
 
 .conteiner-homeadmin{
@@ -13,18 +11,17 @@
     flex-wrap: wrap;
 }
 
-#homeadmin-funcionarios{
-    
+#tabela-homeadmin{
+    margin-left: auto;
+    margin-right: auto;
 }
 
-#homeadmin-horas{
-    
+.td-admin-esquerda{
+    text-align: left;
+    padding-right: 15px;
 }
 
-#homeadmin-feriados{
-    
-}
-
-#homeadmin-requisicoes{
-    
+.td-admin-direita{
+    text-align: right;
+    padding-left: 15px;
 }

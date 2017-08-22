@@ -7,6 +7,8 @@ import org.joda.time.LocalDate
 @Transactional
 class FuncionarioService {
 
+    RegistroPontoService registroPontoService
+
     Funcionario salvar(Funcionario funcionario){
         Map model = [:]
         model['msg'] = ""
@@ -48,4 +50,22 @@ class FuncionarioService {
         }
         return salario
     }
+
+
+    List<Funcionario> trabalhandoNoMomento(){
+        LocalDate hoje = new LocalDate()
+        List<RegistroPonto> registros = registroPontoService.buscarPontosDoDia(hoje)
+        Map<Funcionario, List<RegistroPonto>> mapa = registros.groupBy{it.funcionario}
+        List<Funcionario> trabalhadores = []
+        mapa.each{
+            if(it.value.size()){
+                RegistroPonto rp = it.value.get(it.value.size()-1)
+                if(rp.isEntrada){
+                    trabalhadores << rp.funcionario
+                }
+            }
+        }
+        return trabalhadores
+    }
+
 }

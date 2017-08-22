@@ -52,7 +52,7 @@ class FuncionarioController {
         try {
             funcionario.dataAdmissao = LocalDate.fromDateFields(params.dataAdmissao as Date)
         } catch (Exception ex) {
-            println "não deu certo a data\n${ex}"
+            println "FuncionarioController.cadastro(funcionario) -> não deu certo a data\n${ex}"
         }
         funcionario = funcionarioService.salvar(funcionario)
         if (!funcionario) {

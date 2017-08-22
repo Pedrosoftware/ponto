@@ -5,7 +5,9 @@ import entity.ConfiguracaoService
 import entity.PreparadorHistorico
 import entity.Historico
 import entity.Salario
+import entity.TipoHoraExtra
 import grails.transaction.Transactional
+import org.joda.time.Duration
 import org.joda.time.LocalDate
 import util.UtilitarioSpring
 
@@ -15,6 +17,7 @@ class RelatorioService {
     PreparadorHistorico preparadorHistorico
     CalculadorSalario calculadorSalario
     ConfiguracaoService configuracaoService
+    FuncionarioService funcionarioService
 
 
     Historico criar(long idFuncionario) {
@@ -40,8 +43,45 @@ class RelatorioService {
         return null
     }
 
+    List<Historico> criarParaTodosOsFuncionarios() {
+        LocalDate hoje = new LocalDate()
+        return criarParaTodosOsFuncionarios(hoje.getMonthOfYear(), hoje.getYear())
+    }
+
+    List<Historico> criarParaTodosOsFuncionarios(int mes, int ano) {
+        List<Funcionario> funcionarios = funcionarioService.listar()
+        List<Historico> historicos = []
+        for (funcionario in funcionarios) {
+            historicos << criar(funcionario.id, mes, ano)
+        }
+        return historicos
+    }
+
+    Duration totalHorasExtras(List<Historico> historicos) {
+        Duration total = new Duration(0)
+        for (historico in historicos) {
+            total += historico.horasExtras50 + historico.horasExtras100
+        }
+        return total
+    }
+
+    Duration totalHorasExtras50(List<Historico> historicos) {
+        Duration total = new Duration(0)
+        for (historico in historicos) {
+            total += historico.horasExtras50
+        }
+        return total
+    }
+
+    Duration totalHorasExtras100(List<Historico> historicos) {
+        Duration total = new Duration(0)
+        for (historico in historicos) {
+            total += historico.horasExtras100
+        }
+        return total
+    }
+
     List<Salario> criarRelatorioSalarial(int mesDoRelatorio, int anoDoRelatorio) {
-        //TODO checar se o mês já fechou, pois não é possível gerar salários de um mês que não fechou
         LocalDate lastDayOfMonth = new LocalDate().withYear(anoDoRelatorio).withMonthOfYear(mesDoRelatorio)
                 .withDayOfMonth(Integer.parseInt(configuracaoService.getConfig(ConfiguracaoService.DIA_FECHAMENTO)))
         List<Salario> salarios = []
