@@ -1,8 +1,10 @@
 package entity
 
 import org.joda.time.DateTimeConstants
+import org.joda.time.LocalDate
 import sistemaponto.Feriado
 import sistemaponto.Funcionario
+import sistemaponto.FuncionarioService
 import sistemaponto.RegistroPonto
 
 /**
@@ -12,14 +14,30 @@ class PreparadorHistorico {
 
     SeletorCargaHoraria seletorCargaHoraria
     DefinidorTipoHora definidorTipoHora
+    FuncionarioService funcionarioService
 
     Historico preparar(long idFuncionario, int mesReferencia, int anoReferencia) {
         Historico historico = new Historico()
-        historico.funcionario = Funcionario.findById(idFuncionario)
+        historico.funcionario = funcionarioService.get(idFuncionario as int)
         historico.dias = SeletorMes.getDiasDoMes(mesReferencia, anoReferencia)
+        historico.dias = tratarFuncEntrouNoMes(historico.funcionario.dataAdmissao, historico.dias, mesReferencia, anoReferencia)
         definirValoresDiarios(historico.dias, historico.funcionario)
         definirValoresMensais(historico)
         return historico
+    }
+
+    private static List<Dia> tratarFuncEntrouNoMes(LocalDate dataAdmissao, List<Dia> dias, int mesReferencia, int anoReferencia) {
+        LocalDate diaAberturaMes = ConfiguracaoService.getDiaAbertura(mesReferencia, anoReferencia)
+        if (diaAberturaMes < dataAdmissao) {
+            List<Dia> diasApartirDaContrataca = []
+            for (dia in dias) {
+                if (dia.data >= dataAdmissao) {
+                    diasApartirDaContrataca << dia
+                }
+            }
+                return diasApartirDaContrataca
+        }
+        return dias
     }
 
     private void definirValoresDiarios(List<Dia> dias, Funcionario funcionario) {

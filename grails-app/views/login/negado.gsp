@@ -1,9 +1,12 @@
 <html>
 <head>
     <title>Forbbiden</title>
+    <asset:stylesheet src="negado.css"/>
 </head>
 
 <body>
-    <h1>you don't have permission to access this page guy</h1>
+    <div class="conteiner-negado">
+        <h1 class="titulo-negado">Você não possui permissão para acessar esta página</h1>
+    </div>
 </body>
 </html>

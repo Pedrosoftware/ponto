@@ -45,6 +45,10 @@
                                   optionValue="descricao"
                                   value="${funcionario?.cargaHoraria?.id}"/></td>
                 </tr>
+                <tr>
+                    <td class="dado-tab-func-label">Administrador</td>
+                    <td class="dado-tab-func-valor"><input name="funcionario.isAdmin" type="checkbox" checked="${funcionario?.isAdmin}"/></td>
+                </tr>
             </table>
                 <input class="btn btn-dark" type="submit" value="Salvar"></br>
             </g:form>

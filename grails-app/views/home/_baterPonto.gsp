@@ -2,7 +2,7 @@
     <h4>Horário</h4>
 
     <h1 class="relogio">00:00:00</h1>
-    <g:form controller="funcionario" action="baterPonto">
+    <g:form controller="registroPonto" action="baterPonto">
         <input class="btn btn-block btn-dark" type="submit" value="bater ponto"/>
     </g:form>
     <g:if test="${msg}">

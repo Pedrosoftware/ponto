@@ -14,7 +14,7 @@ class AdminController {
     RequisicaoService requisicaoService
     RelatorioService relatorioService
     FuncionarioService funcionarioService
-    RegistroPontoService registroPontoService
+
     static defaultAction = "home"
 
     def home() {
@@ -32,7 +32,7 @@ class AdminController {
         return render(view: '/home/homeAdmin', model: model)
     }
 
-    Map preencherBlocoFuncionario() {
+    private Map preencherBlocoFuncionario() {
         Map model = [:]
         model['Total funcionários'] = funcionarioService.listar().size()
         model['Soma dos salários'] = funcionarioService.salarioTotal()
@@ -41,16 +41,16 @@ class AdminController {
         return model
     }
 
-    Map preencherBlocoHoras() {
+    private Map preencherBlocoHoras() {
         Map model = [:]
         List<Historico> historicos = relatorioService.criarParaTodosOsFuncionarios()
-        model['total'] = FormatadorDataHora.toTime(relatorioService.totalHorasExtras(historicos))
-        model['horas 50%'] = FormatadorDataHora.toTime(relatorioService.totalHorasExtras50(historicos))
-        model['horas 100%'] = FormatadorDataHora.toTime(relatorioService.totalHorasExtras100(historicos))
+        model['Total'] = FormatadorDataHora.toTime(relatorioService.totalHorasExtras(historicos))
+        model['Horas 50%'] = FormatadorDataHora.toTime(relatorioService.totalHorasExtras50(historicos))
+        model['Horas 100%'] = FormatadorDataHora.toTime(relatorioService.totalHorasExtras100(historicos))
         return model
     }
 
-    Map preencherBlocoFeriados() {
+    private Map preencherBlocoFeriados() {
         List<Feriado> feriados = feriadoService.listarDoMes()
         Map model = [:]
         model['Total'] = feriados.size()
@@ -60,13 +60,13 @@ class AdminController {
         return model
     }
 
-    Map preencherBlocoRequisicoes() {
+    private Map preencherBlocoRequisicoes() {
         boolean FINALIZADA = true
         boolean APROVADA = true
         Map model = [:]
-        model['em aberto'] = requisicaoService.buscarNoPeriodoAtual(!FINALIZADA, !APROVADA).size()
-        model['aprovadas'] = requisicaoService.buscarNoPeriodoAtual(FINALIZADA, APROVADA).size()
-        model['recusadas'] = requisicaoService.buscarNoPeriodoAtual(FINALIZADA, !APROVADA).size()
+        model['Em aberto'] = requisicaoService.buscarNoPeriodoAtual(!FINALIZADA, !APROVADA).size()
+        model['Aprovadas'] = requisicaoService.buscarNoPeriodoAtual(FINALIZADA, APROVADA).size()
+        model['Recusadas'] = requisicaoService.buscarNoPeriodoAtual(FINALIZADA, !APROVADA).size()
         return model
     }
 }

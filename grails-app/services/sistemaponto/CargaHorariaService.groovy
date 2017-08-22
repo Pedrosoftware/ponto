@@ -6,14 +6,14 @@ import org.springframework.transaction.TransactionStatus
 @Transactional
 class CargaHorariaService {
 
-    def salvar(CargaHoraria cargaHoraria) {
+    boolean salvar(CargaHoraria cargaHoraria) {
         if(cargaHoraria.save()){
             return true
         }
         return false
     }
 
-    def getAll(){
+    List<CargaHoraria> getAll(){
         return CargaHoraria.list(sort: 'id')
     }
 
@@ -26,8 +26,8 @@ class CargaHorariaService {
         return false
     }
 
-    def getOne(long id){
-        println "ID:::{$id}"
-        return CargaHoraria.findById(id)
-    }
+//    def getOne(long id){
+//        println "ID:::{$id}"
+//        return CargaHoraria.findById(id)
+//    }
 }

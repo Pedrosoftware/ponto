@@ -4,6 +4,7 @@ import entity.ConfiguracaoService
 import grails.plugin.springsecurity.annotation.Secured
 import org.joda.time.LocalDate
 
+@Secured(['ROLE_ADMIN'])
 class FuncionarioController {
 
     FuncionarioService funcionarioService
@@ -12,7 +13,6 @@ class FuncionarioController {
 
     static defaultAction = "homepadrao"
 
-    @Secured(['ROLE_ADMIN'])
     def formulario() {
         Map model = [:]
         if (params.id) {
@@ -22,7 +22,7 @@ class FuncionarioController {
         render(view: 'formulario', model: model)
     }
 
-    @Secured(['ROLE_USER', 'ROLE_ADMIN'])
+    @Secured(['ROLE_USER'])
     def homepadrao() {
         Map model = [:]
         model['relatorio'] = relatorioService.criar()
@@ -36,18 +36,6 @@ class FuncionarioController {
         render(view: '/home/home', model: model)
     }
 
-    @Secured(['ROLE_USER', 'ROLE_ADMIN'])
-    def baterPonto() {
-        Map model = [:]
-        if (registroPontoService.registrar()) {
-            model['msg'] = "Ponto registrado"
-            return redirect(controller: 'funcionario', action: 'homepadrao', params: model)
-        }
-        model['msg'] = "Falha ao registrar o ponto"
-        redirect(controller: 'funcionario', action: 'homepadrao', params: model)
-    }
-
-    @Secured(['ROLE_ADMIN'])
     def salvar(Funcionario funcionario) {
         try {
             funcionario.dataAdmissao = LocalDate.fromDateFields(params.dataAdmissao as Date)
@@ -63,15 +51,11 @@ class FuncionarioController {
             render(view: 'formulario', model: model)
             return
         }
-        if (funcionario.isAdmin) {
-            FuncionarioRegra.create(funcionario, Regra.findByAuthority('ROLE_ADMIN'), true)
-        }
-        FuncionarioRegra.create(funcionario, Regra.findByAuthority('ROLE_USER'), true)
 
         chain(controller: 'funcionario', action: 'listar', params: ['msg':"Funcionário cadastrado com sucesso"])
     }
 
-    @Secured(['ROLE_USER', 'ROLE_ADMIN'])
+    @Secured(['ROLE_USER'])
     def relatorio() {
         Map model = [:]
         LocalDate dataInformada
@@ -99,7 +83,6 @@ class FuncionarioController {
         render(view: '/home/registros', model: model)
     }
 
-    @Secured(['ROLE_ADMIN'])
     def listar() {
         Map model = [:]
         if(params.msg){

@@ -8,6 +8,9 @@
 <body>
 <div class="base-container container-fluid">
     <div class="formulario-container conteiner-base-branco">
+        <g:if test="${login_error}">
+            <h4>usuário ou senha incorretos</h4>
+        </g:if>
         <h1>Sistema de Ponto</h1>
         <form action='/SistemaPonto/sslogin' method='POST' id='loginForm' class='cssform' autocomplete='off'>
                 <input class="form-control formulario-item" type="text" id="usuario" name="username" placeholder="USUÁRIO" value="pedro"/>

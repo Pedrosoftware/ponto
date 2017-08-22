@@ -53,17 +53,17 @@ class PontoTagLib {
         }
     }
 
-    def menu = {
-        Funcionario funcionario = UtilitarioSpring.getUsuarioLogado()
-        if (funcionario?.authorities?.size()) {
-            for (rule in funcionario.authorities) {
-                if (rule.authority == "ROLE_ADMIN") {
-                    out << render(template: '/home/menuAdmin')
-                }
-            }
-            out << render(template: '/home/menuUser')
-        }
-    }
+//    def menu = {
+//        Funcionario funcionario = UtilitarioSpring.getUsuarioLogado()
+//        if (funcionario?.authorities?.size()) {
+//            for (rule in funcionario.authorities) {
+//                if (rule.authority == "ROLE_ADMIN") {
+//                    out << render(template: '/home/menuAdmin')
+//                }
+//            }
+//            out << render(template: '/home/menuUser')
+//        }
+//    }
 
     def botaoAdmin = {
         if (UtilitarioSpring.getUsuarioLogado().isAdmin) {

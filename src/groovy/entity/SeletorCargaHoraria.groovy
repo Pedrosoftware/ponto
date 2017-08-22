@@ -10,7 +10,7 @@ import sistemaponto.CargaHoraria
  */
 class SeletorCargaHoraria {
 
-    Duration getCargaDoDia(LocalDate data, CargaHoraria cargaHoraria, boolean isFeriado) {
+    static Duration getCargaDoDia(LocalDate data, CargaHoraria cargaHoraria, boolean isFeriado) {
         Duration duration
         if (isFeriado) {
             duration = new Duration(0)

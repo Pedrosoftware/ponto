@@ -1,45 +1,76 @@
-import entity.Permissao
 import org.joda.time.LocalDate
 import org.joda.time.LocalTime
 import sistemaponto.CargaHoraria
 import entity.ConfiguracaoService
 import sistemaponto.Feriado
 import sistemaponto.Funcionario
+import sistemaponto.FuncionarioService
 import sistemaponto.RegistroPontoService
 import sistemaponto.Regra
-import sistemaponto.FuncionarioRegra
+import sistemaponto.Requisicao
+import sistemaponto.RequisicaoHorario
+import sistemaponto.RequisicaoService
 
 class BootStrap {
 
     RegistroPontoService registroPontoService
+    FuncionarioService funcionarioService
+
     def init = { servletContext ->
-        int diaFechamento = 25
-        ConfiguracaoService.escrever(ConfiguracaoService.DIA_FECHAMENTO, String.valueOf(diaFechamento))
+        criarRegrasDeAcesso()
+        criarCargasHorarias()
+        configurarDiaFechamentoDoMes()
+        List<Funcionario> funcionarios = cadastrarFuncionarios()
+        baterPontos(funcionarios)
+        cadastroDeFeriados()
+    }
 
-        sistemaponto.CargaHoraria.findOrSaveByDescricaoAndSegundaAndTercaAndQuartaAndQuintaAndSextaAndSabadoAndDomingo('padrão', 8, 8, 8, 8, 8, 5, 0)
-        sistemaponto.CargaHoraria.findOrSaveByDescricaoAndSegundaAndTercaAndQuartaAndQuintaAndSextaAndSabadoAndDomingo('normal', 8, 8, 8, 8, 8, 8, 8)
-        sistemaponto.CargaHoraria.findOrSaveByDescricaoAndSegundaAndTercaAndQuartaAndQuintaAndSextaAndSabadoAndDomingo('exceptional', 4, 4, 4, 4, 4, 0, 0)
+    List<Funcionario> cadastrarFuncionarios() {
+        int diaFechamento = Integer.parseInt(ConfiguracaoService.getConfig(ConfiguracaoService.DIA_FECHAMENTO))
+        List<Funcionario> funcionarios = []
+        funcionarios << new Funcionario(
+                nome: "John Oliveira",
+                username: "john",
+                password: "fibo@123",
+                isAdmin: false,
+                salario: 1000,
+                cargaHoraria: CargaHoraria.findById(3),
+                dataAdmissao: new LocalDate(2017, 1, diaFechamento + 1))
 
-        Funcionario preguicoso = Funcionario.findOrSaveByUsernameAndPasswordAndIsAdminAndSalarioAndCargaHorariaAndNomeAndDataAdmissao("pedro", "fibo@123", true, 1000, CargaHoraria.findById(1), "Funcionario Preguiçoso", new LocalDate(2017, 1, diaFechamento + 1))
-        Funcionario pontual = Funcionario.findOrSaveByUsernameAndPasswordAndIsAdminAndSalarioAndCargaHorariaAndNomeAndDataAdmissao("paulo", "fibo@123", false, 2000, CargaHoraria.findById(2), "Funcionario Pontual", new LocalDate(2017, 1, diaFechamento + 1))
-        Funcionario dedicado = Funcionario.findOrSaveByUsernameAndPasswordAndIsAdminAndSalarioAndCargaHorariaAndNomeAndDataAdmissao("pablo", "fibo@123", false, 3000, CargaHoraria.findById(1), "Funcionario Dedicado", new LocalDate(2017, 1, diaFechamento + 1))
+        funcionarios << new Funcionario(
+                nome: "Paulo Oliveira",
+                username: "paulo",
+                password: "fibo@123",
+                isAdmin: false,
+                salario: 1500,
+                cargaHoraria: CargaHoraria.findById(4),
+                dataAdmissao: new LocalDate(2017, 1, diaFechamento + 1))
 
+        funcionarios << new Funcionario(
+                nome: "Pedro Henrique",
+                username: "pedro",
+                password: "fibo@123",
+                isAdmin: true,
+                salario: 2000,
+                cargaHoraria: CargaHoraria.findById(3),
+                dataAdmissao: new LocalDate(2017, 1, diaFechamento + 1))
 
-        Regra regraAdmin = new Regra('ROLE_ADMIN')
-        Regra regraUser = new Regra('ROLE_USER')
-        regraAdmin.save()
-        regraUser.save()
+        funcionarios << new Funcionario(
+                nome: "Gustavo Alves",
+                username: "gustavo",
+                password: "fibo@123",
+                isAdmin: false,
+                salario: 2500,
+                cargaHoraria: CargaHoraria.findById(3),
+                dataAdmissao: new LocalDate().minusDays(5))
 
-        FuncionarioRegra.create(preguicoso, regraAdmin, true)
-        FuncionarioRegra.create(preguicoso, regraUser, true)
-        FuncionarioRegra.create(pontual, regraUser, true)
+        for (funcionario in funcionarios) {
+            funcionarioService.salvar(funcionario)
+        }
+        return funcionarios
+    }
 
-        assert (Funcionario.count() == 3)
-        assert (Regra.count() == 2)
-        assert FuncionarioRegra.count() == 3
-
-        List funcionarios = [preguicoso, pontual, dedicado]
-
+    void baterPontos(List<Funcionario> funcs) {
         LocalTime hora07 = new LocalTime(7, 0, 0)
         LocalTime hora08 = new LocalTime(8, 0, 0)
         LocalTime hora10 = new LocalTime(10, 0, 0)
@@ -54,9 +85,9 @@ class BootStrap {
         pontosBatidos.dedicado = [hora07, hora12, hora14, hora18]    //9 horas trabalhadas
 
         Map<Funcionario, List<LocalTime>> mapa =
-                [[preguicoso]: pontosBatidos.preguicoso, [pontual]: pontosBatidos.pontual, [dedicado]: pontosBatidos.dedicado]
+                [[funcs.get(0)]: pontosBatidos.preguicoso, [funcs.get(1)]: pontosBatidos.pontual, [funcs.get(2)]: pontosBatidos.dedicado]
 
-        LocalDate dia = new LocalDate(2017, 6, diaFechamento).plusDays(1)
+        LocalDate dia = funcs.get(0).dataAdmissao
         LocalDate fechamentoMes = new LocalDate()
         while (dia <= fechamentoMes) {
             for (item in mapa) {
@@ -66,10 +97,75 @@ class BootStrap {
             }
             dia = dia.plusDays(1)
         }
-        Feriado.findOrSaveByData(new LocalDate(2017, 7, 10))
-        Feriado.findOrSaveByData(new LocalDate(2017, 7, 18))
+    }
+
+    void cadastroDeFeriados() {
+        LocalDate hoje = new LocalDate()
+        Feriado.findOrSaveByData(hoje.minusDays(5))
+        Feriado.findOrSaveByData(hoje.minusDays(10))
+    }
+
+    void criarRegrasDeAcesso() {
+        Regra regraAdmin = new Regra('ROLE_ADMIN')
+        Regra regraUser = new Regra('ROLE_USER')
+        regraAdmin.save()
+        regraUser.save()
+    }
+
+    int configurarDiaFechamentoDoMes() {
+        int diaFechamento = 25
+        ConfiguracaoService.escrever(ConfiguracaoService.DIA_FECHAMENTO, String.valueOf(diaFechamento))
+        return diaFechamento
+    }
+
+    void criarCargasHorarias() {
+
+        sistemaponto.CargaHoraria.findOrSaveByDescricaoAndSegundaAndTercaAndQuartaAndQuintaAndSextaAndSabadoAndDomingo('padrão', 8, 8, 8, 8, 8, 5, 0)
+        sistemaponto.CargaHoraria.findOrSaveByDescricaoAndSegundaAndTercaAndQuartaAndQuintaAndSextaAndSabadoAndDomingo('normal', 8, 8, 8, 8, 8, 8, 8)
+        sistemaponto.CargaHoraria.findOrSaveByDescricaoAndSegundaAndTercaAndQuartaAndQuintaAndSextaAndSabadoAndDomingo('exceptional', 4, 4, 4, 4, 4, 0, 0)
+
     }
 
     def destroy = {
     }
+
+
+//    void requisicaoDePontos(List<Funcionario> funcionarios) {
+//        LocalTime hora08 = new LocalTime(8, 0, 0)
+//        LocalTime hora10 = new LocalTime(10, 0, 0)
+//        LocalTime hora14 = new LocalTime(14, 0, 0)
+//        LocalTime hora18 = new LocalTime(18, 0, 0)
+//
+//        LocalDate dataSolicitacao = new LocalDate()
+//        LocalDate diaRequisitado = dataSolicitacao.minusDays(5)
+//
+//        List<RequisicaoHorario> horarios = [new RequisicaoHorario(horario: hora08),
+//                                            new RequisicaoHorario(horario: hora10),
+//                                            new RequisicaoHorario(horario: hora14),
+//                                            new RequisicaoHorario(horario: hora18)]
+//
+//        for (funcionario in funcionarios) {
+//            Requisicao requisicao = new Requisicao(dataSolicitacao: dataSolicitacao,
+//                    diaRequisitado: diaRequisitado,
+//                    justificativa: "Esqueci de bater o ponto neste dia por algum motivo estranho",
+//                    funcionario: funcionario)
+//            for(reqHorario in horarios){
+//                requisicao.addToHorarios(reqHorario)
+//            }
+//            requisicaoService.criarRequisicao(requisicao)
+//        }
+//
+//        diaRequisitado = diaRequisitado.withDayOfMonth(10)
+//        for (funcionario in funcionarios) {
+//            Requisicao requisicao = new Requisicao(dataSolicitacao: dataSolicitacao,
+//                    diaRequisitado: diaRequisitado,
+//                    justificativa: "Esqueci de bater o ponto neste dia por algum motivo estranho",
+//                    funcionario: funcionario)
+//            for(reqHorario in horarios){
+//                requisicao.addToHorarios(reqHorario)
+//            }
+//            requisicaoService.criarRequisicao(requisicao)
+//            requisicaoService.finalizar(false, requisicao.id as int)
+//        }
+//    }
 }

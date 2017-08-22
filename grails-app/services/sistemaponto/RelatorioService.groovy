@@ -37,7 +37,7 @@ class RelatorioService {
     }
 
     Historico criar(long idFuncionario, int mesDoRelatorio, int anoDoRelatorio) {
-        if (funcJaTrabalhava(Funcionario.findById(idFuncionario).dataAdmissao, mesDoRelatorio, anoDoRelatorio)) {
+        if (funcJaTrabalhava(funcionarioService.get(idFuncionario as int).dataAdmissao, mesDoRelatorio, anoDoRelatorio)) {
             return preparadorHistorico.preparar(idFuncionario, mesDoRelatorio, anoDoRelatorio)
         }
         return null

@@ -33,7 +33,7 @@ class SeletorMes {
                 .withDayOfMonth(diaFechamentoMes)
     }
 
-    static LocalDate getFirstDayOfMonth(int mes, ano){
-        return getFirstDayOfMonth(mes, ano).minusMonths(1).plusDays(1)
-    }
+//    static LocalDate getFirstDayOfMonth(int mes, ano){
+//        return getFirstDayOfMonth(mes, ano).minusMonths(1).plusDays(1)
+//    }
 }

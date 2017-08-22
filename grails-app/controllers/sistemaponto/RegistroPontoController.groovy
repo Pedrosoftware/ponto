@@ -4,7 +4,6 @@ import entity.FormatadorDataHora
 import grails.plugin.springsecurity.annotation.Secured
 import org.joda.time.LocalDate
 import org.joda.time.LocalTime
-import util.UtilitarioSpring
 
 @Secured(['ROLE_USER', 'ROLE_ADMIN'])
 class RegistroPontoController {
@@ -12,15 +11,15 @@ class RegistroPontoController {
 
     RegistroPontoService registroPontoService
 
+    @Secured(['ROLE_USER'])
     def baterPonto() {
-        Funcionario funcionario = UtilitarioSpring.getUsuarioLogado()
         Map model = [:]
-        if (registroPontoService.registrar(funcionario)) {
+        if (registroPontoService.registrar()) {
             model['msg'] = "Ponto registrado"
-            return redirect(controller: 'funcionario', action: 'homepadrao', model: model)
+            return redirect(controller: 'funcionario', action: 'homepadrao', params: model)
         }
         model['msg'] = "Falha ao registrar o ponto"
-        return redirect(controller: 'funcionario', action: 'homepadrao', model: model)
+        redirect(controller: 'funcionario', action: 'homepadrao', params: model)
     }
 
     @Secured(['permitAll'])
@@ -44,4 +43,16 @@ class RegistroPontoController {
             resultado(msg: "Funcionário não encontrado")
         }
     }
+
+//    def baterPonto() {
+//        Funcionario funcionario = UtilitarioSpring.getUsuarioLogado()
+//        Map model = [:]
+//        if (registroPontoService.registrar(funcionario)) {
+//            model['msg'] = "Ponto registrado"
+//            return redirect(controller: 'funcionario', action: 'homepadrao', model: model)
+//        }
+//        model['msg'] = "Falha ao registrar o ponto"
+//        return redirect(controller: 'funcionario', action: 'homepadrao', model: model)
+//    }
+
 }

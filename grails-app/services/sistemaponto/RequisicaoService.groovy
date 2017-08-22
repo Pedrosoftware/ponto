@@ -27,12 +27,6 @@ class RequisicaoService {
         LocalDate fechamento = ConfiguracaoService.getDiaFechamento(mes,ano)
         return Requisicao.findAllByIsFinalizadaAndIsAprovadaAndDiaRequisitadoBetween(isFinalizada,isAprovada, abertura, fechamento)
     }
-    List<Requisicao> buscarAprovadasPorMes(int mes, int ano){
-
-    }
-    List<Requisicao> buscarReprovadasPorMes(int mes, int ano){
-
-    }
 
     Requisicao buscarRequisicao(LocalDate data, Funcionario funcionario){
         List<Requisicao> lista = Requisicao.findAllByDiaRequisitadoAndFuncionario(data, funcionario)
@@ -43,9 +37,11 @@ class RequisicaoService {
     }
 
     boolean criarRequisicao(Requisicao requisicao){
-        if(requisicao.save()){
+        if(requisicao.save(flush: true)){
             registroPontoService.marcarRequisicaoNoDia(requisicao.diaRequisitado, requisicao.funcionario)
             return true
+        }else{
+            requisicao.errors.allErrors.each { println it }
         }
         return false
     }

@@ -28,11 +28,11 @@ class RequisicaoController {
             return
         }
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy")
-        Date data = null
+        Date data
         model['data'] = params.diaRequisitado
         try {
             data = sdf.parse(params.diaRequisitado as String)
-        } catch (Exception e) {
+        } catch (Exception ex) {
             model['msg'] = "Formato de data inválido."
             render(view: 'index', model: model)
             return
