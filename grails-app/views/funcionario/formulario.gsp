@@ -14,7 +14,7 @@
                 <g:if test="${funcionario}">Edição</g:if>
                 <g:else>Cadastro</g:else>
             </h4>
-            <g:form controller="funcionario" action="cadastro">
+            <g:form controller="funcionario" action="salvar">
                 <input type="hidden" name="funcionario.id" value="${funcionario?.id}"/>
             <table id="tabela-func-detalhe">
                 <tr>
@@ -23,7 +23,7 @@
                 </tr>
                 <tr>
                     <td class="dado-tab-func-label">Salário</td>
-                    <td class="dado-tab-func-valor"><input class="form-control" type="number" name="funcionario.salario" value="${funcionario?.salario}"/></td>
+                    <td class="dado-tab-func-valor"><input type="number" class="form-control" name="funcionario.salario" value="${funcionario?.salario}"/></td>
                 </tr>
                 <tr>
                     <td class="dado-tab-func-label">Data adminissão</td>

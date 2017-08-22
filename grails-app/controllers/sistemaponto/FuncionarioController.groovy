@@ -48,12 +48,13 @@ class FuncionarioController {
     }
 
     @Secured(['ROLE_ADMIN'])
-    def cadastro(Funcionario funcionario) {
+    def salvar(Funcionario funcionario) {
         try {
             funcionario.dataAdmissao = LocalDate.fromDateFields(params.dataAdmissao as Date)
         } catch (Exception ex) {
             println "FuncionarioController.cadastro(funcionario) -> não deu certo a data\n${ex}"
         }
+        funcionario.salario = params.funcionario.salario as double
         funcionario = funcionarioService.salvar(funcionario)
         if (!funcionario) {
             Map model = [:]
