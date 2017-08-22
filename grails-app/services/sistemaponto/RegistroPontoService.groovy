@@ -45,6 +45,11 @@ class RegistroPontoService {
         }
     }
 
+    int totalFuncionariosTrabalhando(){
+        LocalDate hoje = new LocalDate()
+
+    }
+
     List<Dia> listaPontosMesCorrente(long idFuncionario) {
 
         List<RegistroPonto> pontos = (List<RegistroPonto>) RegistroPonto.withCriteria {

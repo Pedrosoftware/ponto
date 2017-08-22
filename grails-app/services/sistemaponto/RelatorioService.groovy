@@ -59,6 +59,7 @@ class RelatorioService {
         return salarios
     }
 
+
     private boolean funcJaTrabalhava(LocalDate dataAdmissaoFuncionario, int mesDoRelatorio, int anoDoRelatorio) {
         LocalDate mesRelatorio = configuracaoService.getDiaFechamento(mesDoRelatorio, anoDoRelatorio)
         return dataAdmissaoFuncionario <= mesRelatorio

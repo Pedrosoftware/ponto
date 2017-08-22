@@ -1,6 +1,8 @@
 package sistemaponto
 
+import entity.ConfiguracaoService
 import grails.transaction.Transactional
+import org.joda.time.LocalDate
 
 @Transactional
 class FuncionarioService {
@@ -19,5 +21,31 @@ class FuncionarioService {
 
     Funcionario get(int id){
         return Funcionario.get(id)
+    }
+
+    List<Funcionario> entraramNoMes(){
+        LocalDate data = new LocalDate()
+        return entraramNoMes(data.getMonthOfYear(), data.getYear())
+    }
+
+    List<Funcionario> entraramNoMes(int mes, int ano){
+        LocalDate aberturaMes = ConfiguracaoService.getDiaAbertura(mes, ano)
+        LocalDate fechamentoMes = ConfiguracaoService.getDiaFechamento(mes, ano)
+        return Funcionario.findAllByDataAdmissaoBetween(aberturaMes, fechamentoMes)
+    }
+
+    double salarioTotal(){
+        LocalDate data = new LocalDate()
+        return salarioTotalDoPeriodo(data.getMonthOfYear(), data.getYear())
+    }
+
+    double salarioTotalDoPeriodo(int mes, int ano){
+        LocalDate fechamentoMes = ConfiguracaoService.getDiaFechamento(mes, ano)
+        List<Funcionario> lista = Funcionario.findAllByDataAdmissaoLessThan(fechamentoMes)
+        double salario = 0
+        for(funcionario in lista){
+            salario += funcionario.salario
+        }
+        return salario
     }
 }

@@ -34,17 +34,17 @@ class AdminController {
     Map preencherBlocoFuncionario() {
         Map model = [:]
         model['Total funcionários'] = funcionarioService.listar().size()
-        model['Valor total salários'] = 30000
-        model['Entraram este mês'] = 3
-        model['Em jornada de trabalho'] = 23
+        model['Soma dos salários'] = funcionarioService.salarioTotal()
+        model['Entraram este mês'] = funcionarioService.entraramNoMes().size()
+        model['Trabalhando agora'] = 23
         return model
     }
 
     Map preencherBlocoHoras() {
         Map model = [:]
+        model['total'] = FormatadorDataHora.toTime(new Duration(32302323))
         model['horas 50%'] = FormatadorDataHora.toTime(new Duration(1230919))
         model['horas 100%'] = FormatadorDataHora.toTime(new Duration(12302323))
-        model['total'] = FormatadorDataHora.toTime(new Duration(32302323))
         return model
     }
 
