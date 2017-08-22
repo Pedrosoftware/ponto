@@ -1,5 +1,9 @@
-package entity
+package service
 
+import entity.Dia
+import entity.Historico
+import entity.SeletorMes
+import entity.TipoHoraExtra
 import org.joda.time.DateTimeConstants
 import org.joda.time.LocalDate
 import sistemaponto.Feriado

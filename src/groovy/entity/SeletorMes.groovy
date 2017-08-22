@@ -1,6 +1,7 @@
 package entity
 
 import org.joda.time.LocalDate
+import service.ConfiguracaoService
 
 /**
  * Created by pedro on 07/08/17.

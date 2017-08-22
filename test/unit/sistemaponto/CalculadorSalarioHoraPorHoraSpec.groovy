@@ -1,7 +1,7 @@
 package sistemaponto
 
-import entity.CalculadorSalario
-import entity.CalculadorSalarioHoraPorHora
+import service.CalculadorSalario
+import service.CalculadorSalarioHoraPorHora
 import entity.Salario
 import org.joda.time.Duration
 import org.junit.Test

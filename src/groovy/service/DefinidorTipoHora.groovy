@@ -1,4 +1,7 @@
-package entity
+package service
+
+import entity.Dia
+import entity.TipoHoraExtra
 
 /**
  * Created by pedro on 08/08/17.

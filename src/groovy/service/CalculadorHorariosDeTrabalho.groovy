@@ -1,4 +1,4 @@
-package entity
+package service
 
 import org.joda.time.Duration
 import org.joda.time.LocalTime
@@ -9,7 +9,7 @@ class CalculadorHorariosDeTrabalho {
     static Duration calcular(List<LocalTime> pontos) {
         if (pontos.size() % 2 == 1) {
             //throw new Exception("Quantidade impar de pontos")
-            return new Duration(0)
+            pontos.remove(pontos.size()-1)
         }
 
         Duration totalEntrada = new Duration(0)

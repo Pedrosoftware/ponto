@@ -1,6 +1,6 @@
 package sistemaponto
 
-import entity.ConfiguracaoService
+import service.ConfiguracaoService
 import grails.transaction.Transactional
 import org.joda.time.LocalDate
 

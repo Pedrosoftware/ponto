@@ -1,5 +1,6 @@
-package entity
+package service
 
+import entity.Salario
 import org.joda.time.Duration
 import sistemaponto.Funcionario
 

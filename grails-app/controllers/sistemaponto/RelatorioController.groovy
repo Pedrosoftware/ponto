@@ -1,6 +1,6 @@
 package sistemaponto
 
-import entity.ConfiguracaoService
+import service.ConfiguracaoService
 import entity.Historico
 import entity.Salario
 import grails.plugin.springsecurity.annotation.Secured

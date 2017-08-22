@@ -1,6 +1,6 @@
 package sistemaponto
 
-import entity.ConfiguracaoService
+import service.ConfiguracaoService
 import grails.plugin.springsecurity.annotation.Secured
 
 @Secured(['ROLE_ADMIN'])

@@ -1,4 +1,4 @@
-package entity
+package service
 
 import net.sf.cglib.core.Local
 import org.joda.time.LocalDate

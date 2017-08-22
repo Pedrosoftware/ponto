@@ -1,9 +1,8 @@
 package sistemaponto
 
-import entity.CalculadorHorariosDeTrabalho
+import service.CalculadorHorariosDeTrabalho
 import org.joda.time.Duration
 import org.joda.time.LocalTime as lt
-import org.joda.time.Period
 import org.junit.Test
 import spock.lang.Specification
 import spock.lang.Unroll

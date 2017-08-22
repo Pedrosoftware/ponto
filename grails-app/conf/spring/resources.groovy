@@ -1,10 +1,10 @@
 // Place your Spring DSL code here
-import entity.CalculadorSalarioHoraPorHora
-import entity.ConfiguracaoService
-import entity.SeletorCargaHoraria
-import entity.PreparadorHistorico
+import service.CalculadorSalarioHoraPorHora
+import service.ConfiguracaoService
+import service.SeletorCargaHoraria
+import service.PreparadorHistorico
 import entity.SeletorMes
-import entity.DefinidorTipoHora
+import service.DefinidorTipoHora
 
 beans = {
 

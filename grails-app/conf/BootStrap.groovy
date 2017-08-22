@@ -1,7 +1,7 @@
 import org.joda.time.LocalDate
 import org.joda.time.LocalTime
 import sistemaponto.CargaHoraria
-import entity.ConfiguracaoService
+import service.ConfiguracaoService
 import sistemaponto.Feriado
 import sistemaponto.Funcionario
 import sistemaponto.FuncionarioService
@@ -87,7 +87,7 @@ class BootStrap {
         Map<Funcionario, List<LocalTime>> mapa =
                 [[funcs.get(0)]: pontosBatidos.preguicoso, [funcs.get(1)]: pontosBatidos.pontual, [funcs.get(2)]: pontosBatidos.dedicado]
 
-        LocalDate dia = funcs.get(0).dataAdmissao
+        LocalDate dia = funcs.get(0).dataAdmissao.plusDays(10)
         LocalDate fechamentoMes = new LocalDate()
         while (dia <= fechamentoMes) {
             for (item in mapa) {
@@ -103,6 +103,7 @@ class BootStrap {
         LocalDate hoje = new LocalDate()
         Feriado.findOrSaveByData(hoje.minusDays(5))
         Feriado.findOrSaveByData(hoje.minusDays(10))
+        Feriado.findOrSaveByData(hoje.minusDays(15))
     }
 
     void criarRegrasDeAcesso() {

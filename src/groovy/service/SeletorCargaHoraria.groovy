@@ -1,4 +1,4 @@
-package entity
+package service
 
 import org.joda.time.DateTimeConstants
 import org.joda.time.Duration

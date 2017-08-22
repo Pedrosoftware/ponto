@@ -30,16 +30,17 @@
                         <g:link controller="cargaHoraria" class="nav-link">Cargas</g:link>
                     </li>
                     <li class="nav-item active">
-                        <g:link controller="relatorio" action="relatorioPonto" class="nav-link">Rel pontos</g:link>
+                        <g:link controller="relatorio" action="relatorioPonto" class="nav-link">Relatório pontos</g:link>
                     </li>
                     <li class="nav-item active">
-                        <g:link controller="relatorio" action="relatorioSalario" class="nav-link">Rel salários</g:link>
+                        <g:link controller="relatorio" action="relatorioSalario" class="nav-link">Relório salários</g:link>
                     </li>
                     <li class="nav-item">
                         <g:link controller="configuracao" class="nav-link">Configurações</g:link>
                     </li>
                 </ul>
             </div>
+            <a id="botao-admin" href="/SistemaPonto/funcionario/homepadrao">publico</a>
             <g:if test="${session.SPRING_SECURITY_CONTEXT}">
                 <a id="botao-sair" href="/SistemaPonto/logout">sair</a>
             </g:if>

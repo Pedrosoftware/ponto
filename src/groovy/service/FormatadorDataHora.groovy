@@ -1,4 +1,4 @@
-package entity
+package service
 
 import org.joda.time.Duration
 import org.joda.time.LocalDate

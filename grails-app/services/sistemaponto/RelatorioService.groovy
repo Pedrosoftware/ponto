@@ -1,11 +1,10 @@
 package sistemaponto
 
-import entity.CalculadorSalario
-import entity.ConfiguracaoService
-import entity.PreparadorHistorico
+import service.CalculadorSalario
+import service.ConfiguracaoService
+import service.PreparadorHistorico
 import entity.Historico
 import entity.Salario
-import entity.TipoHoraExtra
 import grails.transaction.Transactional
 import org.joda.time.Duration
 import org.joda.time.LocalDate

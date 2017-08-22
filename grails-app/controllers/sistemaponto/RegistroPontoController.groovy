@@ -1,6 +1,6 @@
 package sistemaponto
 
-import entity.FormatadorDataHora
+import service.FormatadorDataHora
 import grails.plugin.springsecurity.annotation.Secured
 import org.joda.time.LocalDate
 import org.joda.time.LocalTime
