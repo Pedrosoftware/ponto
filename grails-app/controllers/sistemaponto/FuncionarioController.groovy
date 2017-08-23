@@ -8,10 +8,17 @@ import org.joda.time.LocalDate
 class FuncionarioController {
 
     FuncionarioService funcionarioService
-    RegistroPontoService registroPontoService
     RelatorioService relatorioService
 
     static defaultAction = "homepadrao"
+
+    @Secured(['ROLE_USER'])
+    def homepadrao() {
+        Map model = chainModel ? chainModel : [:]
+        model['relatorio'] = relatorioService.criar()
+
+        render(view: '/home/home', model: model)
+    }
 
     def formulario() {
         Map model = [:]
@@ -20,14 +27,6 @@ class FuncionarioController {
         }
         model['cargaHoraria'] = CargaHoraria.list()
         render(view: 'formulario', model: model)
-    }
-
-    @Secured(['ROLE_USER'])
-    def homepadrao() {
-        Map model = chainModel ? chainModel : [:]
-        model['relatorio'] = relatorioService.criar()
-
-        render(view: '/home/home', model: model)
     }
 
     def salvar(Funcionario funcionario) {
@@ -47,34 +46,6 @@ class FuncionarioController {
         }
 
         chain(controller: 'funcionario', action: 'listar', model: ['msg':"Funcionário cadastrado com sucesso"])
-    }
-
-    @Secured(['ROLE_USER'])
-    def relatorio() {
-        Map model = [:]
-        LocalDate dataInformada
-
-        if (params.mesSelecionado) {
-            LocalDate hoje = new LocalDate()
-            dataInformada = LocalDate.fromDateFields(params.mesSelecionado as Date).withDayOfMonth(hoje.getDayOfMonth())
-
-            if (dataInformada > hoje) {
-                model.mesSelecionado = dataInformada.toDate()
-                model.msg = "O mês informado está no futuro"
-                return render(view: '/home/registros', model: model)
-            }
-
-            model.relatorio = relatorioService.criar(
-                    params.mesSelecionado_month as int, params.mesSelecionado_year as int)
-        } else {
-            model.relatorio = relatorioService.criar()
-            dataInformada = ConfiguracaoService.getUltimoDiaFechamento()
-        }
-        if (!model.relatorio) {
-            model.msg = "Não existem registros referêntes a este mês pois o funcionário ainda não tinha entrado na empresa"
-        }
-        model.mesSelecionado = dataInformada.toDate()
-        render(view: '/home/registros', model: model)
     }
 
     def listar() {

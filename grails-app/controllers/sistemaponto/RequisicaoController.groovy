@@ -7,18 +7,18 @@ import util.UtilitarioSpring
 
 import java.text.SimpleDateFormat
 
+@Secured(['ROLE_ADMIN'])
 class RequisicaoController {
 
-    static defaultAction = "index"
+    static defaultAction = "formulario"
     RequisicaoService requisicaoService
 
-
-    @Secured(['ROLE_ADMIN', 'ROLE_USER'])
-    def index() {
-        render(view: 'requisitar', model: [data: params.data])
+    @Secured(['ROLE_USER'])
+    def formulario() {
+        render(view: 'formulario', model: [data: params.data])
     }
 
-    @Secured(['ROLE_ADMIN', 'ROLE_USER'])
+    @Secured(['ROLE_USER'])
     def requisitar() {
 
         Map model = [:]
@@ -71,13 +71,10 @@ class RequisicaoController {
         chain(controller: 'funcionario', action: 'homepadrao', model: model)
     }
 
-
-    @Secured(['ROLE_ADMIN'])
     def listar() {
         render(view: 'lista', model: ['requisicoes': requisicaoService.listarEmAberto()])
     }
 
-    @Secured(['ROLE_ADMIN'])
     def detalhe() {
         Map model = [:]
         Requisicao requisicao = requisicaoService.get(Integer.parseInt(params.id as String))
@@ -86,14 +83,11 @@ class RequisicaoController {
         render(view: 'detalhe', model: model)
     }
 
-
-    @Secured(['ROLE_ADMIN'])
     def aprovar() {
         boolean result = requisicaoService.finalizar(true, params.id as int)
         preparaMsgEEncaminhaPraView("aprova", result)
     }
 
-    @Secured(['ROLE_ADMIN'])
     def recusar() {
         boolean cadastrou = requisicaoService.finalizar(false, params.id as int)
         preparaMsgEEncaminhaPraView("recusa", cadastrou)
@@ -116,7 +110,6 @@ class RequisicaoController {
         rh.horario = new LocalTime(strNumeros[0] as int, strNumeros[1] as int, strNumeros[2] as int)
         return rh
     }
-
 
     private static List<LocalTime> convertSetToList(Set<RequisicaoHorario> horariosSet) {
         List<LocalTime> horariosList = []

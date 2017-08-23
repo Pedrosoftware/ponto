@@ -13,8 +13,8 @@
         </g:if>
         <h1>Sistema de Ponto</h1>
         <form action='/SistemaPonto/sslogin' method='POST' id='loginForm' class='cssform' autocomplete='off'>
-                <input class="form-control formulario-item" type="text" id="usuario" name="username" placeholder="USUÁRIO" value="pedro"/>
-                <input class="form-control formulario-item" type="password" id="senha" name="password" PLACEHOLDER="SENHA" value="fibo@123"/>
+                <input class="form-control formulario-item" type="text" id="usuario" name="username" placeholder="USUÁRIO"/>
+                <input class="form-control formulario-item" type="password" id="senha" name="password" PLACEHOLDER="SENHA"/>
                 <input class="btn btn-dark form-control formulario-item" type="submit" value="entrar"/>
         </form>
     </div>

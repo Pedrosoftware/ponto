@@ -21,7 +21,7 @@
                         <g:link controller="funcionario" class="nav-link">Resumo</g:link>
                     </li>
                     <li class="nav-item">
-                        <g:link controller="funcionario" action="relatorio" class="nav-link">Registros</g:link>
+                        <g:link controller="relatorio" action="relatorio" class="nav-link">Registros</g:link>
                     </li>
                 </ul>
             </div>

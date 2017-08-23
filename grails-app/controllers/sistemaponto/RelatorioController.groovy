@@ -15,20 +15,32 @@ class RelatorioController {
 
     static defaultAction = "home"
 
-    def home() {
-
-    }
-
-    @Secured(['ROLE_USER', 'ROLE_ADMIN'])
+    @Secured(['ROLE_USER'])
     def relatorio() {
-        Funcionario funcionario
-        if (params.id) {
-            funcionario = funcionarioService.get(params.id as int)
+        Map model = [:]
+        LocalDate dataInformada
+
+        if (params.mesSelecionado) {
+            LocalDate hoje = new LocalDate()
+            dataInformada = LocalDate.fromDateFields(params.mesSelecionado as Date).withDayOfMonth(hoje.getDayOfMonth())
+
+            if (dataInformada > hoje) {
+                model.mesSelecionado = dataInformada.toDate()
+                model.msg = "O mês informado está no futuro"
+                return render(view: '/home/registros', model: model)
+            }
+
+            model.relatorio = relatorioService.criar(
+                    params.mesSelecionado_month as int, params.mesSelecionado_year as int)
         } else {
-            funcionario = UtilitarioSpring.getUsuarioLogado()
+            model.relatorio = relatorioService.criar()
+            dataInformada = ConfiguracaoService.getUltimoDiaFechamento()
         }
-        Historico relatorio = relatorioService.criar(funcionario.id)
-        render(view: '/home/home', model: ['relatorio': relatorio])
+        if (!model.relatorio) {
+            model.msg = "Não existem registros referêntes a este mês pois o funcionário ainda não tinha entrado na empresa"
+        }
+        model.mesSelecionado = dataInformada.toDate()
+        render(view: '/home/registros', model: model)
     }
 
     def relatorioPonto() {

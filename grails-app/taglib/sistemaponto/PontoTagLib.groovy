@@ -53,18 +53,6 @@ class PontoTagLib {
         }
     }
 
-//    def menu = {
-//        Funcionario funcionario = UtilitarioSpring.getUsuarioLogado()
-//        if (funcionario?.authorities?.size()) {
-//            for (rule in funcionario.authorities) {
-//                if (rule.authority == "ROLE_ADMIN") {
-//                    out << render(template: '/home/menuAdmin')
-//                }
-//            }
-//            out << render(template: '/home/menuUser')
-//        }
-//    }
-
     def botaoAdmin = {
         if (UtilitarioSpring.getUsuarioLogado().isAdmin) {
             out << '<a id="botao-admin" href="/SistemaPonto/admin/home">administrar</a>'
@@ -97,7 +85,7 @@ class PontoTagLib {
                     out << '<p class="'+cssClass+'">A</p>'
                     return
                 }
-                out << '<a class="'+cssClass+'" href="/SistemaPonto/requisicao?data='+FormatadorDataHora.toDate(dia.data as LocalDate)+'">A</a>'
+                out << '<a class="'+cssClass+'" href="/SistemaPonto/requisicao/formulario?data='+FormatadorDataHora.toDate(dia.data as LocalDate)+'">A</a>'
                 return
             }
             out << '<p class="'+cssClass+'">A</p>'
