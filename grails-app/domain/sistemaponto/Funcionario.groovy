@@ -25,15 +25,9 @@ class Funcionario {
         password nullable: false, blank: false
         dataAdmissao nullable: false
     }
-    //TODO tenho que adicionar o construtor com o this no começo talvez
 
     String toString(){
         return nome
-    }
-
-
-    Set<Regra> getAuthorities() {
-        FuncionarioRegra.findAllByFuncionario(this)*.regra
     }
 
     def beforeInsert() {
@@ -54,6 +48,10 @@ class Funcionario {
 
     static mapping = {
         password column: '`password`'
+    }
+
+    Set<Regra> getAuthorities() {
+        FuncionarioRegra.findAllByFuncionario(this)*.regra
     }
 
 }

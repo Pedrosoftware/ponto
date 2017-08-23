@@ -24,14 +24,8 @@ class FuncionarioController {
 
     @Secured(['ROLE_USER'])
     def homepadrao() {
-        Map model = [:]
+        Map model = chainModel ? chainModel : [:]
         model['relatorio'] = relatorioService.criar()
-        if (params.msg) {
-            model['msg'] = params.msg
-        }
-        if (chainModel) {
-            model += chainModel
-        }
 
         render(view: '/home/home', model: model)
     }
