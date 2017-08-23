@@ -16,9 +16,9 @@ class RegistroPontoService {
     }
 
     boolean registrar(Funcionario funcionario, LocalDate data, LocalTime hora) {
-        String queryFilter = "SELECT MAX(id) FROM RegistroPonto WHERE funcionario.id = ${funcionario.id}"
+        String queryFilter = "SELECT MAX(id) FROM RegistroPonto WHERE funcionario.id = ? AND dia = ?"
         String hql = "SELECT isEntrada FROM RegistroPonto WHERE id = (${queryFilter})"
-        List isEntrada = RegistroPonto.executeQuery(hql)
+        List isEntrada = RegistroPonto.executeQuery(hql,[funcionario.id, data])
         RegistroPonto registroPonto = new RegistroPonto()
         registroPonto.funcionario = funcionario
         registroPonto.dia = data
@@ -27,8 +27,8 @@ class RegistroPontoService {
         return registroPonto.save(flush: true) != null
     }
 
-    void removerTodosPontosDoDia(LocalDate dia) {
-        List<RegistroPonto> pontos = RegistroPonto.findAllByDia(dia)
+    void removerTodosPontosDoDia(LocalDate dia, Funcionario funcionario) {
+        List<RegistroPonto> pontos = RegistroPonto.findAllByDiaAndFuncionario(dia, funcionario)
         for (ponto in pontos) {
             ponto.delete()
         }

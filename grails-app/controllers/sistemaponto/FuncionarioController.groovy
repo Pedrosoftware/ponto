@@ -52,7 +52,7 @@ class FuncionarioController {
             return
         }
 
-        chain(controller: 'funcionario', action: 'listar', params: ['msg':"Funcionário cadastrado com sucesso"])
+        chain(controller: 'funcionario', action: 'listar', model: ['msg':"Funcionário cadastrado com sucesso"])
     }
 
     @Secured(['ROLE_USER'])
@@ -84,10 +84,7 @@ class FuncionarioController {
     }
 
     def listar() {
-        Map model = [:]
-        if(params.msg){
-            model.msg = params.msg
-        }
+        Map model = chainModel ? chainModel : [:]
         model.funcionarios = funcionarioService.listar()
         return render(view: 'listar', model: model)
     }

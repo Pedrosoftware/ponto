@@ -58,7 +58,7 @@ class RequisicaoService {
         requisicao.isAprovada = reqAprovada
         requisicao.isFinalizada = true
         if(reqAprovada){
-            registroPontoService.removerTodosPontosDoDia(requisicao.diaRequisitado)
+            registroPontoService.removerTodosPontosDoDia(requisicao.diaRequisitado, requisicao.funcionario)
             for(horario in requisicao.horarios) {
                 registroPontoService.registrar(requisicao.funcionario, requisicao.diaRequisitado, horario.horario)
             }
