@@ -1,6 +1,5 @@
 package sistemaponto
 
-import service.ConfiguracaoService
 import grails.plugin.springsecurity.annotation.Secured
 import org.joda.time.LocalDate
 

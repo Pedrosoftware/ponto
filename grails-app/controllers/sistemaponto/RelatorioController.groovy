@@ -5,7 +5,6 @@ import entity.Historico
 import entity.Salario
 import grails.plugin.springsecurity.annotation.Secured
 import org.joda.time.LocalDate
-import util.UtilitarioSpring
 
 @Secured(['ROLE_ADMIN'])
 class RelatorioController {

@@ -32,7 +32,7 @@ class ConfiguracaoController {
         return encaminhar('Dia de fechamento atualizado com sucesso', model)
     }
 
-    private def encaminhar(String msg, Map model) {
+    private Map encaminhar(String msg, Map model) {
         model.msg = msg
         return chain(controller: 'configuracao', model: model)
     }

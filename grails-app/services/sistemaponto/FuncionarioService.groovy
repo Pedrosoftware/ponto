@@ -10,8 +10,6 @@ class FuncionarioService {
     RegistroPontoService registroPontoService
 
     Funcionario salvar(Funcionario funcionario) {
-        Map model = [:]
-        model['msg'] = ""
         if (funcionario.save(flush: true)) {
             if (funcionario.isAdmin) {
                 FuncionarioRegra.create(funcionario, Regra.findByAuthority('ROLE_ADMIN'), true)
@@ -27,7 +25,7 @@ class FuncionarioService {
 
     List<Funcionario> listar() {
         List<Funcionario> lista = Funcionario.findAll()
-        lista.sort { it.nome.toLowerCase() }
+        lista = lista.sort { it.nome.toLowerCase() }
         return lista
     }
 
@@ -61,7 +59,6 @@ class FuncionarioService {
         return salario
     }
 
-
     List<Funcionario> trabalhandoNoMomento() {
         LocalDate hoje = new LocalDate()
         List<RegistroPonto> registros = registroPontoService.buscarPontosDoDia(hoje)
@@ -69,7 +66,7 @@ class FuncionarioService {
         List<Funcionario> trabalhadores = []
         mapa.each {
             if (it.value.size()) {
-                RegistroPonto rp = it.value.get(it.value.size() - 1)
+                RegistroPonto rp = it.value[-1]
                 if (rp.isEntrada) {
                     trabalhadores << rp.funcionario
                 }
