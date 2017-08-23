@@ -23,12 +23,18 @@ class RegistroPontoController {
     }
 
     @Secured(['permitAll'])
-    def baterPontoMaquina() {
-        Funcionario funcionario = Funcionario.get(params.id as int)
+    def baterPontoMaquina(int id) {
+        String mensagem = ""
+        if(!id){
+            mensagem = "Parâmetro id não informado"
+            return render(contentType: "application/json") {
+                resultado(msg: mensagem)
+            }
+        }
+        Funcionario funcionario = Funcionario.get(id)
         if (funcionario) {
             LocalDate data = new LocalDate()
             LocalTime hora = new LocalTime()
-            String mensagem = ""
             if (registroPontoService.registrar(funcionario, data, hora)) {
                 mensagem = "Ponto registrado para o funcionário ${funcionario.nome}"
             } else {
@@ -43,16 +49,4 @@ class RegistroPontoController {
             resultado(msg: "Funcionário não encontrado")
         }
     }
-
-//    def baterPonto() {
-//        Funcionario funcionario = UtilitarioSpring.getUsuarioLogado()
-//        Map model = [:]
-//        if (registroPontoService.registrar(funcionario)) {
-//            model['msg'] = "Ponto registrado"
-//            return redirect(controller: 'funcionario', action: 'homepadrao', model: model)
-//        }
-//        model['msg'] = "Falha ao registrar o ponto"
-//        return redirect(controller: 'funcionario', action: 'homepadrao', model: model)
-//    }
-
 }
