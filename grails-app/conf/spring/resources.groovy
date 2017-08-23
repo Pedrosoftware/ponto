@@ -3,7 +3,7 @@ import service.CalculadorSalarioHoraPorHora
 import service.ConfiguracaoService
 import service.SeletorCargaHoraria
 import service.PreparadorHistorico
-import entity.SeletorMes
+import service.SeletorMes
 import service.DefinidorTipoHora
 
 beans = {

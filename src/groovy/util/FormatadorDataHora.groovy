@@ -1,4 +1,4 @@
-package service
+package util
 
 import org.joda.time.Duration
 import org.joda.time.LocalDate

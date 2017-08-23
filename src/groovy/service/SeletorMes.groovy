@@ -1,7 +1,7 @@
-package entity
+package service
 
+import entity.Dia
 import org.joda.time.LocalDate
-import service.ConfiguracaoService
 
 /**
  * Created by pedro on 07/08/17.
@@ -9,7 +9,7 @@ import service.ConfiguracaoService
 class SeletorMes {
 
     static List<Dia> getDiasDoMes(int mes, int ano) {
-        LocalDate dataFimMes = getLastDayOfMonth(mes, ano)
+        LocalDate dataFimMes = ConfiguracaoService.getDiaFechamento(mes, ano)
         LocalDate dataInicioMes = dataFimMes.minusMonths(1).plusDays(1)
         List<Dia> lista = []
         Dia dia
@@ -25,16 +25,4 @@ class SeletorMes {
         }
         return lista
     }
-
-    static LocalDate getLastDayOfMonth(int mes, ano){
-        int diaFechamentoMes = ConfiguracaoService.getConfig(ConfiguracaoService.DIA_FECHAMENTO) as int
-       return new LocalDate()
-                .withYear(ano)
-                .withMonthOfYear(mes)
-                .withDayOfMonth(diaFechamentoMes)
-    }
-
-//    static LocalDate getFirstDayOfMonth(int mes, ano){
-//        return getFirstDayOfMonth(mes, ano).minusMonths(1).plusDays(1)
-//    }
 }

@@ -1,6 +1,6 @@
 package sistemaponto
 
-import service.FormatadorDataHora
+import util.FormatadorDataHora
 import entity.Historico
 import grails.plugin.springsecurity.annotation.Secured
 

@@ -1,7 +1,7 @@
 package sistemaponto
 
 import entity.Dia
-import service.FormatadorDataHora
+import util.FormatadorDataHora
 import org.joda.time.Duration
 import org.joda.time.LocalDate
 import org.joda.time.LocalTime
